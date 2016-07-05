@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+<?php
+$ConfigHtml = $ConfigData['html'];
+
+$Classids = array_keys($ClassifyList);
+$Classids = implode(',',$Classids);
+
+?>
+<script>
+var PicItemSize = <?php echo $ConfigHtml['picitemsize'];?>;
+var ClassifyArray = [<?php echo $Classids;?>];
+$(function(){
+     
+	 $("#makeall_pic").click(function(){
+	     if(window.top !== window.self){
+			 window.parent.F.makePicHtml('',PicItemSize);
+		 }else{
+			 FH.makePicHtml('&id='+id,PicItemSize);
+		 }
+		 return false;
+	 });
+	 
+	 $("#makeclassify_pic").click(function(){
+	     var cid = $("#makeclassify_pic_cid").val();
+		 if(cid==''){
+		      $.fdialog.alert('fa fa-times-circle','<h5>请选择要生成的栏目!</h5>');
+		 }else{
+		     if(window.top !== window.self){
+			     window.parent.F.makePicHtml('&cid='+cid,PicItemSize);
+		     }else{
+			     FH.makePicHtml('&id='+id,PicItemSize);
+		     }
+		 }
+		 return false;
+	 });
+	 
+	 
+	 
+	 //生成首页
+	 $("#make_index").click(function(){
+	     $.getJSON('./index.php?g=Admin&m=Html&a=index',function(r,s,x){
+		     if(s==='success'){
+			     if(r.status===1){
+				     $.fdialog.alert('fa fa-check-circle','<h5>恭喜,生成成功!</h5>');
+				 }else{
+				     $.fdialog.alert('fa fa-times-circle','<h5>生成失败,请重试!</h5>');
+				 }
+			 }else{
+			     $.fdialog.alert('fa fa-times-circle','<h5>系统出错,请重试!</h5>');
+			 }
+		 });
+	 });
+	 
+	 //生成单页
+	 $("#makeall_pages").click(function(){
+		 if(window.top !== window.self){
+			 window.parent.F.makePagesHtml('',PicItemSize);
+		 }else{
+			 FH.makePagesHtml('',PicItemSize);
+		 }
+		 return false;
+	 });
+	 
+	 
+	 //生成栏目
+	 $("#makeall_classify").click(function(){
+	     if(window.top !== window.self){
+			 window.parent.F.makeClassifyHtml(ClassifyArray,10,0);
+		 }else{
+			 FH.makeClassifyHtml(ClassifyArray,10,0);
+		 }
+		 return false;
+	 });
+	 
+	 
+	 
+	 
+	 
+});
+</script>
+
+
+</head>
+<body>
+<div class="tbox">
+		  <div class="tlink">生成内容</div>
+          <table class="table">
+	      <tfoot>
+		  
+		  <tr class="head">
+	      <td colspan="2"><b>首页及单页</b> 生成选项</td>
+		  </tr>
+		  
+		  
+		  <tr>
+		  <td width="200">
+		     生成首页及单页
+		  </td>
+		  <td style="text-align:left; padding:10px 20px;">
+		     <button class="btn btn-success" id="make_index"><i class="fa fa-refresh"></i> 生成首页</button>
+			 
+			 <button class="btn" id="makeall_pages"><i class="fa fa-refresh"></i> 生成所有单页</button>
+		  </td>
+          </tr>
+		  
+		  
+		  
+		  <tr class="head">
+	      <td colspan="2"><b>内容页</b> 生成选项</td>
+		  </tr>
+		  
+          <tr>
+		  <td width="200">
+		     生成全部内容页
+		  </td>
+		  <td style="text-align:left; padding:10px 20px;">
+		     <button class="btn btn-success" id="makeall_pic"><i class="fa fa-refresh"></i> 生成全部</button>
+		  </td>
+          </tr>
+		  
+		  <tr>
+		  <td>
+		     按栏目生成内容页
+		  </td>
+		  <td style="text-align:left; padding:10px 20px;">
+		     <select class="input-select" name="cid" id="makeclassify_pic_cid">
+			 <option value="">选择栏目</option>
+			 <volist name="ClassifyList" id="r"><option value="{$r.id}" <if condition="$r[id]==$urlattr['cid']"> selected</if>>{$r.name}</option></volist>
+		     </select>
+			 <button class="btn" id="makeclassify_pic"><i class="fa fa-refresh"></i> 生成所选栏目</button>
+		  </td>
+          </tr>
+		  
+
+          <tr class="head">
+	      <td colspan="2"><b>栏目页</b> 生成选项</td>
+		  </tr>
+		  
+		  
+		  <tr>
+		  <td width="200">
+		     生成全部栏目页
+		  </td>
+		  <td style="text-align:left; padding:10px 20px;">
+		     <button class="btn btn-success" id="makeall_classify"><i class="fa fa-refresh"></i> 生成全部</button>
+		  </td>
+          </tr>
+		  
+		  <tr>
+		  <td>
+		     按栏目生成内容页
+		  </td>
+		  <td style="text-align:left; padding:10px 20px;">
+		     <select class="input-select" name="cid" id="makeclassify_classify_cid">
+			 <option value="">选择栏目</option>
+			 <volist name="ClassifyList" id="r"><option value="{$r.id}" <if condition="$r[id]==$urlattr['cid']"> selected</if>>{$r.name}</option></volist>
+		     </select>
+			 <button class="btn" id="makeclassify_pic"><i class="fa fa-refresh"></i> 生成所选栏目</button>
+		  </td>
+          </tr>
+		  
+	      </tfoot>
+         </table>
+</div>
+
+
+
+</body>
+</html>

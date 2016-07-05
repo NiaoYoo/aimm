@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+<script>
+$(function(){
+     $("#test").click(function(){
+          Jsons('./index.php?m=Admin&c=index&a=counts','');
+     });
+	 
+	 var m = FH_MakeVod;
+	 var n = FH_MakeVod;
+	 
+ m.getCount('');
+	 
+	m.getCount('');
+	
+	n.getCount('');
+	 
+});
+
+
+
+var FH_MakeVod  = (function(){
+	 var C = {
+         vod_count : 0, //待生成的影片总数
+	     sql_data : {}, //查询影片记录数的SQL条件
+	     vod_page : 0, //正在生成的影片页,每次生成1个影片
+	     model_type : 'vod', //当前正在生成的模块
+	     group_count : 1, //当前生成模块,共有多少组数据
+	     group_page : 1, // 当前生成模板组的页码
+	     item_count : 0, //当前生成组下项目总数,
+	     item_page : 0 //当前生成项目页码
+     }
+	 
+	 var getVodCountUrl = '{:U("getcount","&model=vod")}';
+	 
+	 
+	 var getCount = function(url,data){
+	     $.ajax({
+		 url : url,
+		 data : data,
+			 dataType: 'json',
+			 type : 'post',
+			 timeout : 600000,
+			 success : function(r){
+				 C.count = r.count;
+				 $('#info').html('<p>开始采集数据,请稍后...</p>');
+				 Json(U,{id:Vod.page});
+			 },
+			 error : function(){
+				 $('#info').html('<p>数据出错,无法采集</p>');
+			 }
+	     });
+	 };
+	 
+	 
+	 return {
+	     getCount : getCount,
+		 m : m
+	 }
+})();
+
+
+
+
+
+
+var U = '{:U("vod")}';
+
+var Vod = {
+     m : 0,
+	 where : {},
+	 page : 0,
+	 type : 'vod',
+	 sub_z : 1,
+	 sub_zp : 1,
+	 sub_m : 0,
+	 sub_page : 0
+	 
+}
+
+
+function Jsons(url,data){
+	 $.ajax({
+		 url : url,
+		 data : data,
+				 dataType: 'json',
+				 type : 'post',
+				 timeout : 600000,
+				 success : function(r){
+				     Vod.m = r.count;
+					 $('#info').html('<p>开始采集数据,请稍后...</p>');
+					 Json(U,{id:Vod.page});
+				 },
+				 error : function(){
+				     $('#info').html('<p>数据出错,无法采集</p>');
+				 }
+	});
+}
+
+function Json(url,data){
+	 if(Vod.m<=Vod.page){
+	     $('#log').append('<p>生成完了</p>');
+		 return false;
+	 }
+
+	 $.ajax({
+			     url : url,
+				 data : data,
+				 dataType: 'json',
+				 type : 'post',
+				 timeout : 600000,
+				 success : function(r){
+				     if(r.err==0){
+					     $('#log').append('<p>'+r.msg+'</p>');
+
+						 if(r.type=='vod'){ //如果是vod直接跳下一个影片
+						     
+							 Vod.type = 'vod';
+							 Vod.page++;
+					         Json(U,{id:Vod.page});
+						 }else{
+						     if(r.type!=Vod.type){ //判断当前生成项目是否需要继续生成下一页
+								 Vod.type = r.type; 
+								 Vod.sub_z = r.z;
+								 Vod.sub_zp = 1; //更新组起始页
+								 Vod.sub_m = r.m;
+								 Vod.sub_page = 1; 
+								 Json('./index.php?m=Admin&c=index&a='+Vod.type,{zp:Vod.sub_zp,page:Vod.sub_page});
+						     }else{
+								 Vod.sub_page++;
+								 if(Vod.sub_m<Vod.sub_page){ //判断当前页是否生成完全部的页
+									Vod.sub_m = r.m;
+									Vod.sub_zp++;
+									Vod.sub_page = 1; //更新下一组起始页
+									 if(Vod.sub_z<Vod.sub_zp){ //判断是否生成完全部的组
+									     
+										 Vod.page++; //全部组生成完,自动生成下一个影片
+										 Vod.type = 'vod';
+										 Json(U,{id:Vod.page});
+									 }else{
+										 Json('./index.php?m=Admin&c=index&a='+Vod.type,{zp:Vod.sub_zp,page:Vod.sub_page});
+									 }
+								 }else{
+									 Json('./index.php?m=Admin&c=index&a='+Vod.type,{zp:Vod.sub_zp,page:Vod.sub_page});
+								 }
+						 
+						     }
+						 }
+						 
+						 
+					 }
+				 },
+				 error : function(){
+				     $('#log').append('<p style="color:red;">当前生成失败,跳过!</p>');
+					 Vod.type = 'vod';
+					 Vod.page++;
+					 Json(U,{id:Vod.page});
+				 }
+	 });
+}
+
+
+
+</script>
+</head>
+<body>
+
+<button class="btn" id="test">开始测试</button>
+
+<div id="log">
+     
+	 <div id="info">正在收集要采集的信息</div>
+	 
+</div>
+
+
+
+
+</body>
+</html>

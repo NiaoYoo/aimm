@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>网站管理系统</title>
+<link href="./Public/Admin/css/style.css" rel="stylesheet" />
+<link href="./Public/Admin/css/main.css" rel="stylesheet" />
+<link href="./Public/Admin/plug/awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="./Public/Admin/plug/fdialog/skin/default/fdialog.css" rel="stylesheet" />
+<link href="./Public/Admin/plug/bootstrap/tooltip.min.css" rel="stylesheet" />
+<script src="./Public/Admin/jquery/jquery.min.js" type="text/javascript" language="javascript"></script>
+<script src="./Public/Admin/jquery/jquery-ui.min.js" type="text/javascript" language="javascript"></script>
+<script src="./Public/Admin/plug/fdialog/fdialog.js" type="text/javascript" language="javascript"></script>
+<script src="./Public/Admin/plug/bootstrap/tooltip.min.js" type="text/javascript" language="javascript"></script>
+<script src="./Public/Admin/js/main.js" type="text/javascript" language="javascript"></script>
+<script language="JavaScript" type="text/javascript">
+$(document).ready(function(){
+	$("#clear").click(function(){
+		$ajaxurl = $(this).attr('href');
+		$.get($ajaxurl,null,function(data){
+			$("#cache").show();
+			$("#cache").html(' <font color=#ff6600>'+data+'</font> ');
+			window.setTimeout(function(){
+				$("#cache").hide();
+			},2000);
+		});
+		return false;
+	});
+	$("#cache").click(function(){
+		$("#cache").hide();
+		return false;
+	});
+});
+</script>
+<script>
+function editpassword(){
+	 $.fdialog({
+	     title : '修改密码',
+		 content : '<table class="ftable noborder"><tbody><tr><td width="90">原密码(*)</td><td><input type="password" class="input-text" style="width:200px;" value="" name="pw" /></td></tr><tr><td width="90">新密码(*)</td><td><input type="password" class="input-text" style="width:200px;" value="" name="pw1" /></td></tr><tr><td width="90">重复新密码(*)</td><td><input type="password" class="input-text" style="width:200px;" value="" name="pw2" /></td></tr></tbody></table>',
+		 width : 380,
+		 height : 180,
+		 fiexd : true,
+		 isLock : true,
+		 button : [{title:'提交',value:'yes'},{title:'取消',value:'no'}],
+		 buttonCallback : function(obj,v,btn){
+			 if(v==='no'){
+			     return true;
+			 }else{
+			     
+				 var pw = obj.find('[name="pw"]');
+			     var pw1 = obj.find('[name="pw1"]');
+			     var pw2 = obj.find('[name="pw2"]');
+				 
+				 if(pw.val().length>20 || pw.val().length<6){
+				     pw.tooltip({
+					     title : '请输入正确的原密码',
+						 placement : 'top'
+					 });
+					 pw.focus();
+					 return false;
+				 }
+				 
+				 if(pw1.val().length>20 || pw1.val().length<6){
+				     pw1.tooltip({
+					     title : '密码长度应在6~16位!',
+						 placement : 'top'
+					 });
+					 pw1.focus();
+					 return false;
+				 }
+				 
+				 if(pw1.val()!==pw2.val()){
+				     pw2.tooltip({
+					     title : '两次输入的密码必须相同',
+						 placement : 'top'
+					 });
+					 pw2.focus();
+					 return false;
+				 }
+				 
+				 
+				 $.ajax({
+				     type : 'post',
+					 url : '{:U("Admin/Admin/editpassword")}',
+				     data : '&pw='+pw.val()+'&pw1='+pw1.val()+'&pw2='+pw2.val(),
+					 dataType : 'json',
+				     success : function(t){
+						 if(!t.status){
+						     $.fdialog.alert('fa fa-times-circle','<h5>'+t.info+'!</h5>');
+						 }else{
+						     obj.fdialog('destroy');
+							 $.fdialog.alert('fa fa-check-circle','<h5>'+t.info+'!</h5><p><span id="admin_retime">3</span>秒后自动关闭!</p>',{
+								 buttonCallback : function(_obj,_v,_btn){
+									 return true;
+								 }
+							 });
+							 setInterval(function(){
+							     $("#admin_retime").html(function(index,val){
+								     var m = parseInt(val);
+									 if(m--){
+									     return m;
+									 }else{
+									     obj.fdialog('destroy');
+									 }
+								 });
+							 },1000);
+						 }
+					 },
+					 error : function(){
+					     $.fdialog.alert('fa fa-times-circle','<h5>系统出错,请刷新重试!</h5>');
+					 }
+				 
+				 });
+				 
+			 
+			 }
+			 
+			 
+			 return false;
+		 }
+	 });
+}
+</script>
+</head>
+<body>
+
+<div id="header">
+      <div class="top">
+          <div class="logo"><img src="./Public/Admin/imgs/logo.png" width="170" height="60" /></div>
+	      <div class="nav">
+	          <ul>
+		     <li><span class="system this" data-id="system">系统</span></li>
+		     <li><span class="info" data-id="info">信息</span></li>
+		     <li><span class="extend" data-id="extend">性能</span></li>
+			 <!--
+		     <li><span class="extend" data-id="extend">扩展</span></li>
+		     <li><span class="usercp" data-id="usercp">会员</span></li>
+		     <li><span class="template" data-id="template">模板</span></li>
+		     <li><span class="other" data-id="other">其它</span></li>
+			 -->
+		     </ul>
+	      </div>
+	      <div class="admin"><a href="{:U('Cache/del')}" target='right' id="clear" title="包括模板,数据库等系统缓存">清空缓存</a> <a id="cache"></a>  <eq name="SysAdmin.gid" value="1">超级<else/>普通</eq>管理员：<b id="adminname">{$SysAdmin.user}</b><span onclick="editpassword();" style="cursor:pointer;">[编辑]</span> - <a href="{:U('Admin/Login/out')}">[退出]</a></div>
+      </div>
+      <div class="link">
+          <div class="alink">
+	          <a href="{:U('Pic/add')}" target="main">添加图片</a><a href="{:U('Pic/index')}" target="main">图片管理</a><a href="{:U('Flink/add')}" target="main">添加友链</a><a href="{:U('Flink/index')}" target="main">友链管理</a><a href="{:U('Index/makehtml')}" target="main">静态生成</a><a href="{:U('Ads/show')}" target="main">广告管理</a><a href="./" target="_blank">网站首页</a>
+	     </div>
+      </div>
+</div>
+
+
+<div id="main">
+     <div id="main_left">
+		  <div class="menu-tree" id="menu-tree">
+		  
+		  <!-- 系统操作 -->
+		  
+		  <div data-id="system" class="mtree" style="display: block;">
+		  <div class="home">系统设置</div>
+		  
+		  <dl><dt class="open">系统设置</dt>
+		  <dd class="last"><a class="rlink" href="{:U('Config/index')}" target="main">网站基本设置</a></dd>
+		  </dl>
+
+
+		  <dl><dt class="open">后台管理员</dt>
+		  <dd><a class="rlink" href="{:U('Admin/add')}" target="main">添加管理员</a></dd>
+		  <dd class="last"><a class="rlink" href="{:U('Admin/index')}" target="main">管理员操作</a></dd>
+		  </dl>
+		  
+		  <dl class="nobg"><dt class="open">友情链接管理</dt>
+		  <dd><a class="rlink" href="{:U('Flink/add')}" target="main">添加友链</a></dd>
+		  <dd class="last"><a class="rlink" href="{:U('Flink/index')}" target="main">管理友链</a></dd>
+		  </dl>
+		  </div>
+		  
+		  
+		  <!-- 图片系统 -->
+		  
+		  <div data-id="info" class="mtree" style="display: none;">
+		  
+		  <div class="home">图片系统</div>
+		  <dl><dt class="open">图片集管理</dt>
+		  <dd><a class="rlink" href="{:U('Pic/index')}" target="main">图片集管理</a></dd>
+		  <dd class="last"><a class="rlink" href="{:U('Pic/add')}" target="main">添加图片集</a></dd>
+		  </dl>
+		  
+		  <dl><dt class="open">栏目管理</dt>
+		  <dd><a class="rlink" href="{:U('Classify/index')}" target="main">栏目管理</a></dd>
+		  <dd><a class="rlink" href="{:U('Classify/add')}" target="main">栏目添加</a></dd>
+		  <dd class="last"><a class="rlink" href="{:U('Classify/shift')}" target="main">数据转移</a></dd>
+		  </dl>
+		  
+		  
+		  <dl class="nobg"><dt class="open">单页管理</dt>
+		  <dd><a class="rlink" href="{:U('Pages/index')}" target="main">单页管理</a></dd>
+		  <dd class="last"><a class="rlink" href="{:U('Pages/add')}" target="main">添加单页</a></dd>
+		  </dl>
+		  
+		  
+		  </div>
+
+		  <!-- 拓展系统 -->
+		  
+		  <div data-id="extend" class="mtree" style="display: none;">
+		  	
+		  <dl class="nobg"><dt class="open">拓展工具</dt>
+		  <dd class="last"><a class="rlink" href="{:U('Cache/config')}" target="main">性能设置</a></dd>
+		  <dd class="last"><a class="rlink" href="{:U('Cache/show')}" target="main">缓存管理</a></dd>
+		  <dd class="last"><a class="rlink" href="{:U('Index/sitemap')}" target="main">地图生成</a></dd>
+		  </dl>
+		  
+		  
+		  </div>
+		  </div>
+	 </div>
+	 <div id="main_center"></div>
+	 <div id="main_right">
+	      <iframe name="main" src="{:U('Index/makehtml')}" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+	 </div>
+</div>
+
+</body>
+</html>

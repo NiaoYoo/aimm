@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+<script>
+$(function(){
+     FH.selectAll($('#checkall'));
+	 
+	 $("#data_search_btn").click(function(){
+	     $("#datalist").attr({
+		     'action' : $(this).attr('href'),
+			 'method' : 'post'
+		 }).submit();
+	     return false;
+	 });
+	 
+	 $("#delselect").click(function(){
+		 var posturl = $(this).attr('href');
+		 var obj = $('input[name="id[]"]:checked');
+		 if(obj.length>0){
+		     delSelectPic($('#datalist'));
+		 }else{
+		     $.fdialog.alert('fa fa-times-circle','<h5>您没有选择任何要删除的图片集!</h5><p>提示：删除后将不可恢复</p>');
+		 }
+		 return false;
+	 });
+	 
+	 
+	 $("#editselect").click(function(){
+	     var posturl = $(this).attr('href');
+		 var obj = $('input[name="id[]"]:checked');
+		 if(obj.length>0){
+		     editsSelectPic($('#datalist'));
+		 }else{
+		     $.fdialog.alert('fa fa-times-circle','<h5>请选择你要设置的图片集</h5>');
+		 }
+		 return false;
+	 });
+	 
+	 $("[f='makehtml']").click(function(){
+		 var id = $(this).data("pid");
+		 if(window.top !== window.self){
+			 window.parent.F.makePicHtml('&id='+id,1);
+		 }else{
+			 FH.makePicHtml('&id='+id,1);
+		 }
+		 return false;
+	     
+	 });
+	 
+	 $("#makeselect").click(function(){
+	     var obj = $('input[name="id[]"]:checked');
+	     if(obj.length>0){
+		     var id = [];
+			 obj.each(function(){
+			     id.push($(this).val());
+			 });
+			 
+			 if(window.top !== window.self){
+			     window.parent.F.makePicHtml('&id='+id.join(','),10);
+		     }else{
+			     FH.makePicHtml('&id='+id.join(','),10);
+		     }
+		 }else{
+		     $.fdialog.alert('fa fa-times-circle','<h5>您没有选择任何要生成的图片集!</h5>');
+		 }
+		 return false;
+	 });
+	 
+	 
+
+});
+
+function delData(obj){
+     var $obj = $(obj);
+	 $.fdialog.alert('fa fa-question-circle','<h5>您确定要删除此图片集吗？</h5><p>提示：删除后将不可恢复</p>',{
+	     position : ['center',200],
+		 button : [{
+		     title : '确定删除',
+			 value : 'yes'
+		 },{
+		     title : '取消操作',
+			 value : 'no'
+		 }],
+		 buttonCallback : function(obj,v,btn){
+		     if(v==='yes'){
+			     window.location.href = $obj.attr('href');
+				 return false;
+			 }
+			 return true;
+		 }
+	 });
+}
+
+function delSelectPic(f){
+     $.fdialog.alert('fa fa-question-circle','<h5>您确定要删除所选图片集吗？</h5><p>提示：删除后将不可恢复</p>',{
+	     position : ['center',200],
+		 button : [{
+		     title : '删除所选',
+			 value : 'yes'
+		 },{
+		     title : '取消操作',
+			 value : 'no'
+		 }],
+		 buttonCallback : function(obj,v,btn){
+		     if(v==='yes'){
+			     f.attr({
+				     'action':$('#delselect').attr('href'),
+					 'method':'post'
+				 }).submit();
+				 return false;
+			 }
+			 return true;
+		 }
+	 });
+}
+
+function editsSelectPic(f){
+      $.fdialog.alert('fa fa-question-circle','<h5>您确定要设置所选图片集吗？</h5>',{
+	     position : ['center',200],
+		 button : [{
+		     title : '设置所选',
+			 value : 'yes'
+		 },{
+		     title : '取消操作',
+			 value : 'no'
+		 }],
+		 buttonCallback : function(obj,v,btn){
+		     if(v==='yes'){
+			     f.attr({
+				     'action':$('#editselect').attr('href'),
+					 'method':'post'
+				 }).submit();
+				 return false;
+			 }
+			 return true;
+		 }
+	 });
+}
+
+</script>
+<body>
+<div class="line-block">当前位置：信息管理 &gt; <a href="{:U('Pic/index')}">图片集管理</a></div>
+<form name="datalist" id="datalist" method="post" action="">
+<div style="background:#C9F1FF; border:1px solid #4FB4DE; padding:6px;">
+     <div style="float:right;">
+	     
+		 <select class="input-select" name="cid">
+			<option value="">选择栏目</option>
+			<volist name="ClassifyList" id="r"><option value="{$r.id}" <if condition="$r[id]==$urlattr['cid']"> selected</if>>{$r.name}</option></volist>
+		 </select>
+		 <select class="input-select" name="position">
+			<option value="">推荐位置</option>
+			<volist name="ConfigArray.pic.position" id="r"><option value="{$key}" <if condition="$key==$urlattr['position']"> selected</if>>{$r}</option></volist>
+		 </select>
+		 <select class="input-select" name="star">
+			<option value="">推荐级别</option>
+			<volist name="ConfigArray.pic.star" id="r"><option value="{$key}" <if condition="$key==$urlattr['star']"> selected</if>>{$r}</option></volist>
+		 </select>
+		 <select class="input-select" name="field">
+			<option value="">搜索字段</option>
+			<volist name="SearchFieldList" id="r"><option value="{$key}" <if condition="$key==$urlattr['field']"> selected</if>>{$r}</option></volist>
+		 </select>
+		 <input type="text" name="keyword" class="input-text" placeholder="{$urlattr['keyword']|default='请输入关键词'}" style="width:150px;" />
+		 <a class="btn" id="data_search_btn" style="height:14px; line-height:14px;" href="{:U('search')}"><span class="fa fa-search"></span> 搜索</a>
+	 </div>
+	 <a class="btn btn-success" href="{:U('add')}"><span class="fa fa-plus"></span> 添加图片</a>
+</div>
+
+<div class="tbox">
+		 <div class="tlink">FHPIC v1.0 QQ:1030432768</div>
+          <table class="table">
+          <thead>
+          <tr>
+	      <th width="50">全选</th>
+		  <php>
+		     $urlattr_id = 	$urlattr;
+			 $urlattr_id['page'] = 1;
+			 $urlattr_icon = ' <i class="fa fa-angle-'.($urlattr['desc']?'down':'up').'"></i>';
+			 
+             if($urlattr_id['order']=='id'){
+			     $urlattr_id['desc'] = abs($urlattr_id['desc']-1);
+				 $urlattr_id_icon =  $urlattr_icon;
+			 }else{
+			     $urlattr_id['desc'] = 1;
+				 $urlattr_id['order'] = 'id';
+				 $urlattr_id_icon = '';
+			 }
+             
+			 $urlattr_addtime = $urlattr;
+			 $urlattr_addtime['page'] = 1;
+             if($urlattr_addtime['order']=='addtime'){
+			     $urlattr_addtime['desc'] = abs($urlattr_addtime['desc']-1);
+				 $urlattr_addtime_icon =  $urlattr_icon;
+			 }else{
+			     $urlattr_addtime['desc'] = 1;
+				 $urlattr_addtime['order'] = 'addtime';
+				 $urlattr_addtime_icon = '';
+			 }
+			 
+			 $urlattr_lasttime = $urlattr;
+			 $urlattr_lasttime['page'] = 1;
+             if($urlattr_lasttime['order']=='lasttime'){
+			     $urlattr_lasttime['desc'] = abs($urlattr_lasttime['desc']-1);
+				 $urlattr_lasttime_icon =  $urlattr_icon;
+			 }else{
+			     $urlattr_lasttime['desc'] = 1;
+				 $urlattr_lasttime['order'] = 'lasttime';
+				 $urlattr_lasttime_icon = '';
+			 }
+
+
+             $urlattr_hits = $urlattr;
+			 $urlattr_hits['page'] = 1;
+             if($urlattr_hits['order']=='hits'){
+			     $urlattr_hits['desc'] = abs($urlattr_hits['desc']-1);
+				 $urlattr_hits_icon =  $urlattr_icon;
+			 }else{
+			     $urlattr_hits['desc'] = 1;
+				 $urlattr_hits['order'] = 'hits';
+				 $urlattr_hits_icon = '';
+			 }
+			 
+			 $urlattr_good = $urlattr;
+			 $urlattr_good['page'] = 1;
+             if($urlattr_good['order']=='good'){
+			     $urlattr_good['desc'] = abs($urlattr_good['desc']-1);
+				 $urlattr_good_icon =  $urlattr_icon;
+			 }else{
+			     $urlattr_good['desc'] = 1;
+				 $urlattr_good['order'] = 'good';
+				 $urlattr_good_icon = '';
+			 }
+
+			 $urlattr_bad = $urlattr;
+			 $urlattr_bad['page'] = 1;
+             if($urlattr_bad['order']=='bad'){
+			     $urlattr_bad['desc'] = abs($urlattr_bad['desc']-1);
+				 $urlattr_bad_icon =  $urlattr_icon;
+			 }else{
+			     $urlattr_bad['desc'] = 1;
+				 $urlattr_bad['order'] = 'bad';
+				 $urlattr_bad_icon = '';
+			 }
+			 
+		 
+		  
+		  </php>
+		  <th width="80"><a href="{:U('index',$urlattr_id)}">ID</a>{$urlattr_id_icon}</th>
+
+		  <th>影片标题</th>
+		  <th width="160"><a href="{:U('index',$urlattr_lasttime)}">更新时间</a>{$urlattr_lasttime_icon}</th>
+		  <th width="80"><a href="{:U('index',$urlattr_hits)}">点击量</a>{$urlattr_hits_icon}</th>
+		  <th width="80"><a href="{:U('index',$urlattr_good)}">顶</a>{$urlattr_good_icon}</th>
+		  <th width="80"><a href="{:U('index',$urlattr_bad)}">踩</a>{$urlattr_bad_icon}</th>
+		  <th width="150">操作</th>
+          </tr>
+          </thead>
+	      <tbody>
+		 <volist name="DataList" id="r">
+		     <tr>
+		     <td><input class="icheck" type="checkbox" name="id[]" value="{$r.id}" /></td>
+			 <td><a href="#" f="makehtml" data-pid="{$r.id}">{$r.id}</a></td>
+			 
+
+		     <td class="name"><gt name="r[star]" value="0"><span style="color:red; padding:0 5px 0 0;">[{$ConfigArray[pic][star][$r[star]]}]</span></gt><a href="{$r|get_url_pic}" target="_blank">{$r.title}</a> <span style="color:red;">({$r.pnum}P)</span></td>
+			 <td><span style="<if condition='FH_isToday($r[lasttime],time())'>color:red;</if>">{$r.lasttime|date='Y-m-d h:i:s',###}</span></td>
+		     <td>{$r.hits}</td>
+			 <td>{$r.good}</td>
+			 <td>{$r.bad}</td>
+			 <td>
+			 <a href="{:U('edit','&id='.$r['id'])}" class="editlink">修改</a>
+			 <a href="{:U('del','&id='.$r['id'])}" onclick="delData(this);return false;" style="color:red;" class="editlink">删除</a>
+			 </td>
+			 </tr>
+		 </volist>
+		 
+	      </tbody>
+		  <tfoot>
+		  <tr>
+		  <td><input class="icheck" type="checkbox" id="checkall" data-sid="id[]" /></td>
+		  <td colspan="7" style="padding:0 10px; text-align:right;"><div class="pages">{$PageList}</div></td>
+		  </tr>
+		  
+		  <tr>
+		  <td colspan="8" style="text-align:left;padding:0 10px;">
+		  <a class="btn min" href="#" id="makeselect"><span class="fa fa-refresh"></span> 生成选中</a>
+		  <a class="btn min" href="{:U('dels')}" id="delselect"><span class="fa fa-minus-circle"></span> 删除选中</a>
+		  
+<!-- 		  <select class="input-select" name="setposition">
+			<option value="">推荐位置</option>
+			<volist name="ConfigArray.pic.position" id="r"><option value="{$key}">{$r}</option></volist>
+		  </select> -->
+
+		  <select class="input-select" name="setstar">
+			<option value="">推荐级别</option>
+			<volist name="ConfigArray.pic.star" id="r"><option value="{$key}">{$r}</option></volist>
+		  </select>
+		  
+		  <a class="btn min" href="{:U('edits')}" id="editselect"><span class="fa fa-random"></span> 设置选中</a>
+		  
+		  
+		  </td>
+		  </tr>
+		  </tfoot>
+           </table>
+</form>
+</body>
+</html>

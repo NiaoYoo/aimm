@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+<script>
+$(function(){
+     var $videoform = $('#config-form');
+	 FH.getTabs($videoform);
+});
+</script>
+</head>
+<body>
+<div class="line-block">当前位置：信息管理 &gt; <a href="{:U('Config/index')}">网站设置</a></div>
+<form name="confi-form" id="config-form" action="{:U('update')}" method="post">
+<div style="margin-bottom:10px;">
+	 <div class="ftabs">
+	      <div class="tabs-title hover">网站配置</div>
+		  <div class="tabs-title">图片系统</div>
+		  <div class="tabs-title">路径设置</div>
+		  <div class="tabs-title">生成设置</div>
+		  <div class="tabs-title">性能设置</div>
+	 </div>
+	 
+      <div class="fbox">
+	     <div class="tabs-content">
+		         <table class="ftable">
+			         <tbody>
+					     <tr>
+				         <td width="150">网站名称</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.name}" style="width:200px;" name="site_name_s" />
+						  <span class="info">网站名字</span>
+				         </td>
+				         </tr>
+
+						 <tr>
+				         <td width="150">网站关键词2</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.keys2}" style="width:300px;" name="site_keys2_s" />
+						  <span class="info">网站关键词</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">网站关键词</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.keys}" style="width:300px;" name="site_keys_s" />
+						  <span class="info">网站关键词</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">网站介绍</td>
+				         <td>
+				         <textarea class="input-textarea" value="" style="width:300px; height:100px;" name="site_des_s">{$ConfigData.site.des}</textarea>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">网站域名</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.domain}" style="width:300px;" name="site_domain_s" />
+						  <span class="info">以http://方式开头</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">网站备案号</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.icp}" style="width:300px;" name="site_icp_s" />
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">程序路径</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.path}" style="width:300px;" name="site_path_s" />
+						  <span class="info">相对于网站根目录(若为根目录请留空)</span>
+				         </td>
+				         </tr>
+
+						 <tr>
+				         <td width="150">js路径</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.picpath}" style="width:300px;" name="site_picpath_s" />
+						  <span class="info">图片cdn地址(若为根目录请留空)</span>
+				         </td>
+				         </tr>
+
+						 <tr>
+				         <td width="150">图片路径</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.piccdn}" style="width:300px;" name="site_piccdn_s" />
+						  <span class="info">图片cdn地址(若为根目录请留空)</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td>默认模板名称</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.skinname|default='default'}" style="width:200px;" name="site_skinname_s" />
+						  <span class="info">默认为default</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td>地图数量</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.site.maplist}" style="width:200px;" name="site_maplist_s" />
+						  <span class="info">默认为default</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td>网站运行方式</td>
+				         <td><label class="input-label"><input type="radio" class="icheck" value="0" name="url_site_n" <eq name="ConfigData['url']['site']" value="0">checked</eq>/><span>伪静态</span></label><label class="input-label"><input type="radio" class="icheck" value="1" name="url_site_n" <eq name="ConfigData['url']['site']" value="1">checked</eq>/><span>动态</span></label><label class="input-label"><input type="radio" class="icheck" value="2" name="url_site_n" <eq name="ConfigData['url']['site']" value="2">checked</eq>/><span>静态</span></label></td>
+				         </tr>
+						 
+						 <tr>
+				         <td>Tags链接方式</td>
+				         <td><label class="input-label"><input type="radio" class="icheck" value="0" name="url_tags_n" <eq name="ConfigData['url']['tags']" value="0">checked</eq>/><span>伪静态</span></label><label class="input-label"><input type="radio" class="icheck" value="1" name="url_tags_n" <eq name="ConfigData['url']['tags']" value="1">checked</eq>/><span>动态</span></label></td>
+				         </tr>
+						 
+						 <tr>
+				         <td>Search链接方式</td>
+				         <td><label class="input-label"><input type="radio" class="icheck" value="0" name="url_search_n" <eq name="ConfigData['url']['search']" value="0">checked</eq>/><span>伪静态</span></label><label class="input-label"><input type="radio" class="icheck" value="1" name="url_search_n" <eq name="ConfigData['url']['search']" value="1">checked</eq>/><span>动态</span></label></td>
+				         </tr>
+						 
+						 
+					 </tbody>
+			     </table>
+		 </div>
+	  
+	  
+	  
+         <div class="tabs-content" style="display:none;">
+		         <table class="ftable">
+			         <tbody>
+					     <tr>
+				         <td width="150">图片推荐位置</td>
+				         <td>
+				         <textarea class="input-textarea" value="" style="width:300px; height:100px;" name="pic_position_r">{$ConfigData.pic.position}</textarea>
+						  <span class="info">格式： 值==名称<br/>示例： h==幻灯<br/>一行一个</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">图片星级推荐</td>
+				         <td>
+				         <textarea class="input-textarea" value="" style="width:300px; height:100px;" name="pic_star_r">{$ConfigData.pic.star}</textarea>
+						  <span class="info">格式： 值==名称<br/>值只能为数字</span>
+				         </td>
+				         </tr>
+						 
+					 </tbody>
+					 
+					 
+			     </table>
+		   </div>
+		   
+		   <div class="tabs-content" style="display:none;">
+		         <table class="ftable">
+			         <tbody>
+					 
+					     <tr>
+				         <td width="150">内容页路径</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.url.contenturl}" style="width:300px;" name="url_contenturl_s" />
+						  <span class="info">可用标签{id},{cid},{y},{m},{d},{time},{cpath}</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">内容页路径(伪静态)</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.url.contenturl2}" style="width:300px;" name="url_contenturl2_s" />
+						  <span class="info">可用标签{id},{cid},{y},{m},{d},{time},{cpath} 必须含有{id}</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">栏目页路径</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.url.classifyurl}" style="width:300px;" name="url_classifyurl_s" />
+						  <span class="info">可用标签{cid},{cpath},{page}</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">栏目页路径(伪静态)</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.url.classifyurl2}" style="width:300px;" name="url_classifyurl2_s" />
+						  <span class="info">可用标签{cid},{cpath},{page}</span>
+				         </td>
+				         </tr>
+						 
+						 <tr>
+				         <td width="150">单页路径</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.url.pagesurl}" style="width:300px;" name="url_pagesurl_s" />
+						  <span class="info">可用标签{id},{ename}</span>
+				         </td>
+				         </tr>
+						 
+						 
+						 <tr>
+				         <td width="150">单页路径(伪静态)</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.url.pagesurl2}" style="width:300px;" name="url_pagesurl2_s" />
+						  <span class="info">可用标签{id},{ename}</span>
+				         </td>
+				         </tr>
+						 
+						 
+						 
+					 </tbody>
+					 
+					 
+			     </table>
+		   </div>
+		   
+		   <div class="tabs-content" style="display:none;">
+		         <table class="ftable">
+			         <tbody>
+					 
+					     <tr>
+				         <td width="150">一组生成图片数</td>
+				         <td>
+				         <input class="input-text" type="text" value="{$ConfigData.html.picitemsize}" style="width:100px;" name="html_picitemsize_n" />
+						  <span class="info">理论上数值越大生成所需时间越少,数据越大可能出现单次生成超时.(建议值 40)</span>
+				         </td>
+				         </tr>
+						 
+					 </tbody>
+			     </table>
+		   </div>
+		   <div class="tabs-content" style="display:none;">
+		         <table class="ftable">
+			         <tbody>
+					 
+					     <tr>
+				         <td width="150">数据缓存方式：</td>
+				         <td>
+				         <select name="config[data_cache_type]" class="w120"><option value="file">File 文件</option><option value="memcache" <eq name="data_cache_type" value="memcache">selected</eq>>Memcache内存</option></select>  <span class="info">将从数据库查询出的数据缓存起来,可以降低MYSQL所占系统资源。如选择memcache，需要服务器系统以及PHP扩展模块支持</span>
+				         </td>
+				         </tr>
+					     <tr>
+				         <td width="150">缓存时间：</td>
+				         <td>
+				         <input type="text" name="config[data_cache_time]" id="data_cache_time" maxlength="8" value="{$data_cache_time}" class="w70">
+						 <span class="info">推荐开启，时间设置为86400秒，一天，表数据更新时缓存数据会同步，设为0该模块将不启用，单位秒</span>
+				         </td>
+				         </tr>
+					 </tbody>
+			     </table>
+		   </div>
+	 </div>	   
+</div>
+<div style="padding-left:176px" class="fbtns"><button class="btn" type="submit" id="config-submit"><span class="fa fa-edit"></span> 提交信息</button></div>
+		   
+</form>
+</body>
+</html>

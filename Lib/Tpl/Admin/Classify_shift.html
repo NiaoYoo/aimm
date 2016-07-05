@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+</head>
+<body>
+<div class="line-block">当前位置：信息管理 &gt; 栏目数据转移</div>
+
+
+<form name="datalist" id="datalist" method="post" action="{:U('setshift')}">
+<div style="margin-bottom:10px;">
+	 <div class="ftabs">
+	      <div class="tabs-title hover">数据转移</div>
+	 </div>
+	 
+     <div class="fbox">
+         <div class="tabs-content">
+                 <table class="ftable">
+
+                 <tbody>
+                  <tr>
+				  <td width="150">数据转移栏目</td>
+				  <td>
+				  <volist name="ClassifyList" id="r">
+				     <label class="input-label"><input class="icheck" type="checkbox" name="id[]" value="{$key}" /><span>{$r.name}</span></label><eq name="i" value="10"><br/></eq>
+				  </volist>
+				  </td>
+				  </tr>
+				  
+				  <tr>
+				  <td>目标栏目</td>
+				  <td>
+				  <select class="input-select" name="cid">
+				     <option value="0">选择栏目</option>
+				     <volist name="ClassifyList" id="r"><option value="{$r.id}" <if condition="$r[id]==$Data[cid]"> selected</if>>{$r.name}</option></volist>
+				  </select>
+				  </td>
+				  </tr>
+                  </tbody>
+
+                 </table>
+		 </div>
+	 </div>
+</div>
+
+<div style="padding-left:176px" class="fbtns">
+	 <button class="btn" type="submit" id="pastsubmit"><span class="icon-edit"></span> 确定转移</button><button type="reset" class="btn"><span class="icon-share-alt"></span> 重置信息</button>
+     </div>
+</form>
+</body>
+</html>

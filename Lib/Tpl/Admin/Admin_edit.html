@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+</head>
+<body>
+
+<div class="line-block">当前位置：<a href="{:U('Admin/index')}">管理员管理</a> &gt; <eq name="Data.id" value="0">添加<else/>修改</eq>管理员</div>
+
+<form name="editform" id="editform" action="{$submiturl}" method="post">
+<div style="margin-bottom:10px;">
+	 <div class="ftabs">
+	      <div class="tabs-title hover">管理员信息</div>
+	 </div>
+	 
+      <div class="fbox">
+           <div class="tabs-content">
+	          <table class="ftable">
+			      <tbody>
+				  <input type="hidden" value="{$Data.id|default=0}" name="id" />
+				  <tr>
+				  <td width="150">用户名(*)</td>
+				  <td>
+				  <input type="text" class="input-text" style="width:200px;" value="{$Data.user}" name="user" /></td>
+				  </tr>
+
+				  <tr>
+				  <td>密码</td>
+				  <td><input type="password" class="input-text" style="width:200px;" value="" name="password" /> <span class="info">修改时若为空则不修改!</span></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>管理员类型</td>
+				  <td><label class="input-label"><input type="radio" class="icheck" value="0" name="gid" <eq name="Data['gid']" value="0">checked</eq>/><span>普通管理员</span></label><label class="input-label"><input type="radio" class="icheck" value="1" name="gid" <eq name="Data['gid']" value="1">checked</eq>/><span>超级管理员</span></label></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>是否锁定</td>
+				  <td><label class="input-label"><input type="radio" class="icheck" value="0" name="islock" <eq name="Data['islock']" value="0">checked</eq>/><span>正常</span></label><label class="input-label"><input type="radio" class="icheck" value="1" name="islock" <eq name="Data['islock']" value="1">checked</eq>/><span>锁定</span></label></td>
+				  </tr>
+
+				 </tbody>
+			 </table>
+	      </div>
+     </div>
+</div>
+
+<div style="padding-left:176px" class="fbtns">
+	 <button class="btn" type="submit" id="pastsubmit"><span class="fa  fa-save"></span> 确定<eq name="id" value="0">添加<else/>修改</eq></button><button type="reset" class="btn"><span class="fa fa-reply"></span> 重置信息</button>
+</div>
+</form>
+
+</body>
+</html>

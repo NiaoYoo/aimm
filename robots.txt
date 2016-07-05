@@ -1,0 +1,3 @@
+User-Agent: *
+Disallow: /Public/
+Sitemap: http://www.woaimm.cc/sitemap.xml

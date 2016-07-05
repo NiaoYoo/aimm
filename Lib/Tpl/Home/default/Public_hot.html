@@ -1,0 +1,72 @@
+    <div class="mod-slider clearfix">
+        <a href="javascript:void(0)" class="slide-left-btn slide-btn"></a>
+        <a href="javascript:void(0)" class="slide-right-btn slide-btn"></a>
+        <div class="mod-slider-show pic">
+            <div class="cnt" id="slider-show">
+                <div class="slide-show-ctn" style="width:980px;">
+                    <?php
+					 $plist = $db->field('picurls,des,hits,goog,bad',true)->where(array('position'=>array('like','%|f|%')))->page(1)->limit(3)->select();
+					?>
+					<volist name="plist" id="r">
+					<div class="mod-rep-img ready img1">
+                        <a href="{$r|get_url_pic}" target="_blank" class="cover">
+                            <img class="img" src="{$r.thumb1}">
+                            <span class="desc">
+                                <span class="cover-num">{$r.pnum}张</span>
+                                <span class="title">{$r.title}</span>
+                            </span>
+                        </a>
+                    </div>
+					</volist>
+                    <?php
+					 $plist = $db->field('picurls,des,hits,goog,bad',true)->where(array('position'=>array('like','%|k|%')))->page(1)->limit(2)->select();
+					?>
+					
+                    <volist name="plist" id="r">
+					<div class="mod-rep-img ready img2">
+                        <a href="{$r|get_url_pic}" target="_blank" class="cover">
+                            <img class="img" src="{$r.thumb2}">
+                            <span class="desc">
+                                <span class="cover-num">{$r.pnum}张</span>
+                                <span class="title">{$r.title}</span>
+                            </span>
+                        </a>
+                    </div>
+					</volist>
+
+                </div>
+                <div class="slide-show-ctn" style="width:980px;">
+                     <?php
+					 $plist = $db->field('picurls,des,hits,goog,bad',true)->where(array('position'=>array('like','%|f|%')))->page(2)->limit(3)->select();
+					?>
+					<volist name="plist" id="r">
+					<div class="mod-rep-img ready img1">
+                        <a href="{$r|get_url_pic}" target="_blank" class="cover">
+                            <img class="img" src="{$r.thumb1}">
+                            <span class="desc">
+                                <span class="cover-num">{$r.pnum}张</span>
+                                <span class="title">{$r.title}</span>
+                            </span>
+                        </a>
+                    </div>
+					</volist>
+                    <?php
+					 $plist = $db->field('picurls,des,hits,goog,bad',true)->where(array('position'=>array('like','%|k|%')))->page(2)->limit(2)->select();
+					?>
+					
+                    <volist name="plist" id="r">
+					<div class="mod-rep-img ready img2">
+                        <a href="{$r|get_url_pic}" target="_blank" class="cover">
+                            <img class="img" src="{$r.thumb2}">
+                            <span class="desc">
+                                <span class="cover-num">{$r.pnum}张</span>
+                                <span class="title">{$r.title}</span>
+                            </span>
+                        </a>
+                    </div>
+					</volist>
+
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>网站信息配置</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel='stylesheet' type='text/css' href='__PUBLIC__/css/admin-style.css' />
+<script language="JavaScript" type="text/javascript" charset="utf-8" src="__PUBLIC__/jquery/jquery-1.7.2.min.js"></script>
+<script language="JavaScript" type="text/javascript" charset="utf-8" src="__PUBLIC__/Js/admin.js"></script>
+<script language="JavaScript" type="text/javascript">
+$(document).ready(function(){
+	$("#myform").submit(function(){
+		if($feifeicms.form.empty('myform','site_name') == false){
+			return false;
+		}
+		if($feifeicms.form.empty('myform','site_url') == false){
+			return false;
+		}
+		if($feifeicms.form.empty('myform','site_path') == false){
+			return false;
+		}	
+	});
+	$("#tabs>a").click(function(){
+		var no = $(this).attr('id');
+		var n = $("#tabs>a").length;
+		showtab('tabs',no,n);
+		$("#tabs>a").removeClass("on");
+		$(this).addClass("on");
+		return false;
+	});
+	<eq name="url_rewrite" value="1">
+	showtab('urlrewrite',1,1);
+	showtab('urlrewrites',1,1);
+	</eq>	
+	<eq name="html_cache_on" value="1">
+	showtab('htmlcache',1,1);
+	</eq>
+	<eq name="data_cache_subdir" value="1">
+	showtab('data_cache_subdir',1,1);
+	</eq>	
+	
+});
+function dir_html(id,value){
+	if(value){
+	$('#'+id).val(value);
+	}
+}	
+function dir_html_add(id,value){
+	//光标处插入指定内容
+	$('#'+id).focus();
+	var str = document.selection.createRange();
+	str.text = value;	
+	//$('#'+id).val($('#'+id).val()+value);
+}
+function playtab(mid,value){
+	if(value>0){
+		$('#'+mid).show();
+	}else{
+		$('#'+mid).hide();
+	}
+}
+</script>
+<style>
+.dir{  color:#006600; font-size:14px;}
+.diri{ color:#666666; font-size:14px; }
+label{ color:#666666}
+#urlhtml1 .left,#urlhtml1 select,#urlrewrites1 .left,#datacache1 .left,#htmlcache1 .left{ color:#444}
+</style>
+</head>
+<body class="body">
+<form name="confi-form" id="config-form" action="{:U('update')}" method="post">
+<div class="title">
+	<div class="tabs" id="tabs"><a href="javascript:void(0)" onfocus="this.blur();" id="1">性能优化</a></div>
+</div>
+
+<div class="add" id="tabs1"> 
+    <ul><li class="left">哈希目录：</li>
+    	<li class="right"><select name="config[data_cache_subdir]" class="w120" onChange="showtab('data_cache_subdir',this.value,1);showtab('data_cache_subdir',this.value,1);"><option value="0" >关闭</option><option value="1" <eq name="data_cache_subdir" value="1">selected</eq>>开启</option></select> 
+    	<span id="data_cache_subdir1" style="display:none">后缀名：
+    		<select name="config[data_path_level]">
+    			<option value="0">0</option>
+    			<eq name="data_path_level" value="1"><option value="1" selected>1</option><else /><option value="1">1</option></eq>
+    			<eq name="data_path_level" value="2"><option value="2" selected>2</option><else /><option value="2">2</option></eq>
+    			<eq name="data_path_level" value="3"><option value="3" selected>3</option><else /><option value="3">3</option></eq>
+    			<eq name="data_path_level" value="4"><option value="4" selected>4</option><else /><option value="4">4</option></eq>
+    		</select>
+    		</span>&nbsp;</li> 
+    </ul> 
+    <ul><li class="left">伪静态重写功能：</li>
+    	<li class="right"><select name="config[url_rewrite]" class="w120" onChange="showtab('urlrewrite',this.value,1);showtab('urlrewrites',this.value,1);"><option value="0" >关闭</option><option value="1" <eq name="url_rewrite" value="1">selected</eq>>开启</option></select> <span id="urlrewrite1" style="display:none">后缀名：<select name="config[url_html_suffix]"><option value=".html">.html</option>
+    		<eq name="url_html_suffix" value=".htm"><option value=".htm" selected>.htm</option><else /><option value=".htm">.htm</option></eq>
+    		<eq name="url_html_suffix" value=".shtml"><option value=".shtml" selected>.shtml</option><else /><option value=".shtml">.shtml</option></eq><eq name="url_html_suffix" value=".shtm"><option value=".shtm" selected>.shtm</option><else /><option value=".shtm">.shtm</option></eq></select></span>&nbsp;</li> 
+    </ul>   
+     <ul><li class="left">数据缓存方式：</li>
+    	<li class="right"><select name="config[data_cache_type]" class="w120"><option value="file">File 文件</option><option value="memcache" <eq name="data_cache_type" value="memcache">selected</eq>>Memcache内存</option></select> <label>将从数据库查询出的数据缓存起来,可以降低MYSQL所占系统资源。如选择memcache，需要服务器系统以及PHP扩展模块支持</label></li>
+    </ul>
+    <div id="datacache1">
+     <ul><li class="left">其他模块：</li>
+    	<li class="right"><input type="text" name="config[data_cache_name]" id="data_cache_name" maxlength="8" value="{$data_cache_name}" class="w70"><label>推荐开启，时间设置为86400秒，一天，表数据更新时缓存数据会同步，设为0该模块将不启用，单位秒</label></li>
+    </ul> 
+     <ul><li class="left">首页最新模块：</li>
+    	<li class="right"><input type="text" name="config[data_cache_new]" id="data_cache_new" maxlength="8" value="{$data_cache_new}" class="w70"><label>推荐开启，时间设置为86400秒，一天，表数据更新时缓存数据会同步，设为0该模块将不启用，单位秒</label></li>
+    </ul>
+     <ul><li class="left">首页最热模块：</li>
+    	<li class="right"><input type="text" name="config[data_cache_hot]" id="data_cache_hot" maxlength="8" value="{$data_cache_hot}" class="w70"><label>推荐开启，时间设置为86400秒，一天，表数据更新时缓存数据会同步，设为0该模块将不启用，单位秒</label></li>
+    </ul>
+	<ul><li class="left">首页推荐模块：</li>
+    	<li class="right"><input type="text" name="config[data_cache_rec]" id="data_cache_rec" maxlength="8" value="{$data_cache_rec}" class="w70"><label>推荐开启，时间设置为86400秒，一天，表数据更新时缓存数据会同步，设为0该模块将不启用，单位秒</label></li>
+    </ul>
+	<ul><li class="left">图片模块：</li>
+    	<li class="right"><input type="text" name="config[data_cache_pic]" id="data_cache_pic" maxlength="8" value="{$data_cache_pic}" class="w70"><label>推荐开启，时间设置为86400秒，一天，表数据更新时缓存数据会同步，设为0该模块将不启用，单位秒</label></li>
+    </ul>
+	
+<!--      <ul><li class="left">专题循环调用标签：</li>
+    	<li class="right"><input type="text" name="config[data_cache_specialforeach]" id="data_cache_specialforeach" maxlength="8" value="{$data_cache_specialforeach}" class="w70"><label>推荐开启，时间设置为600秒，开启后需要手动执行更新操作才会清除，设为0该模块将不启用</label></li>
+    </ul>   -->           
+    </div>
+    <ul><li class="left">模板编译缓存功能：</li>
+    	<li class="right"><select name="config[tmpl_cache_on]" class="w70"><option value="1">开启</option><option value="0" <eq name="tmpl_cache_on" value="0">selected</eq>>关闭</option></select>&nbsp;</li>
+    </ul>
+    <ul><li class="left">网站页面缓存功能：</li>
+    	<li class="right"><select name="config[html_cache_on]" class="w70" onChange="showtab('htmlcache',this.value,1);"><option value="1">开启</option><option value="0" <eq name="html_cache_on" value="0">selected</eq>>关闭</option></select> <label>网站动态模式运行下根据URL自动生成对应的PHP缓存文件</label></li>
+    </ul>
+    <div id="htmlcache1" style="display:none">
+     <ul><li class="left">首页缓存有效期：</li>
+    	<li class="right"><input type="text" name="config[html_cache_index]" id="html_cache_index" maxlength="2" value="{$html_cache_index}" class="w70"><label>设为0该模块将不启用缓存,可以为小数,单位小时</label></li>
+    </ul> 
+    <ul><li class="left">栏目页缓存有效期：</li>
+    	<li class="right"><input type="text" name="config[html_cache_list]" id="html_cache_list" maxlength="2" value="{$html_cache_list}" class="w70"><label>设为0该模块将不启用缓存,可以为小数,单位小时</label></li>
+    </ul>
+    <ul><li class="left">内容页缓存有效期：</li>
+    	<li class="right"><input type="text" name="config[html_cache_content]" id="html_cache_content" maxlength="2" value="{$html_cache_content}" class="w70"><label>设为0该模块将不启用缓存,可以为小数,单位小时</label></li>
+    </ul>
+    <ul><li class="left">其它缓存有效期：</li>
+    	<li class="right"><input type="text" name="config[html_cache_ajax]" id="html_cache_ajax" maxlength="2" value="{$html_cache_ajax}" class="w70"><label>设为0该模块将不启用缓存,可以为小数,单位小时</label></li>
+    </ul> 
+    </div>
+</div>
+<!-- -->
+<div class="add">
+	<ul class="footer"><input type="submit" name="submit" value="提交"> <input type="reset" name="reset" value="重置"></ul>
+</div>
+</form>
+
+</body>
+</html>

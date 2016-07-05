@@ -1,0 +1,26 @@
+<volist name="DataList" id="r">
+                         <div class="list-box">
+                             <div class="preview">
+                                 <a target="_blank" href="{$r|get_url_pic}" title="{$r.title}"><img src="{$ConfigData.site.piccdn}{$r.titlepic}" border="0" alt="{$r.title}"></a>
+                                 <div class="detail mt5">
+                                     <h3><a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">{$r.title}</a></h3>
+                                     <span class="postdate">{$r.addtime|date='Y-m-d',###}</span>
+                                 </div>
+                                 <span class='num'>{$r.pnum}张</span>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+							 <?php
+							 $tags = FH_getTags($r["tags"],3);
+							 ?>
+                                 <div class="tags"><volist name="tags" id="t"><a href="{$t|get_url_tags}">{$t}</a></volist></div>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+                                 <div class="fields">
+                                     <span><i class="view icon"></i>{$r.hits}</span>
+                                     <span><i class="like icon"></i>{$r.good}</span>
+                                 </div>
+                             </div>
+                         </div>
+</volist>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+<style>
+.picurlsbox {}
+.picurlsbox li { float:left; margin:5px; width:100px; height:100px; padding:4px; border:1px solid #ddd; position:relative; background-color:#fff;}
+.picurlsbox li .remove { position:absolute; right:-10px; top:-10px; font-size:20px; height:20px; width:20px; color:#333; cursor:pointer;}
+
+#picurls .addpic { font-size:40px; color:#5bc0de; width:100px; text-align:center; background-color:#f1f1f1; height:100px; line-height:100px; cursor:pointer;}
+#picurls .addpic:hover { color:#46b8da;}
+</style>
+<script>
+$(function() {
+    FH.getTabs($("#editform"));
+	
+	$("#picurls").click(function(){
+	     uploadPics($(this));
+		 return false;
+	});
+	
+	$("#picurlsbox").on('click','.item .remove',function(){
+		 $(this).parent().remove();
+		 resetPicurls();
+	});
+	
+	
+	 $("#picurlsbox ul").sortable({
+	     items : '.item',
+		 distance : 15,
+		 update : function(event,ui){
+		     resetPicurls();
+		 }
+	 });
+    $("#picurlsbox ul").disableSelection();
+	
+	
+	
+	
+	
+	$("#editform").submit(function(){
+	     var $title = $(this).find('input[name="title"]');
+		 var $cid = $(this).find('[name="cid"]');
+		 if($title.val()==''){
+		     $.fdialog.alert('fa fa-times-circle','<h5>图片集标题不能为空!</h5>');
+			 return false;
+		 }
+		 
+		 if(!$cid.val()){
+		     $.fdialog.alert('fa fa-times-circle','<h5>请选择图片集栏目!</h5>');
+			 return false;
+		 }
+	});
+	
+	
+	$("#editpicurls").click(function(){
+	     var bid = "picurls";
+		 var $input = $('input[name="'+bid+'"]');
+		 var links = $input.val().replace(/\$/g,"\r\n");
+			links = links.replace(/\.\//g,'/');
+		 $.fdialog({
+		     isMove : true,
+			 title : '图片集快速编辑',
+			 titleIcon : 'fa fa-picture-o',
+		     width : 600,
+			 height : 400,
+			 button : [
+			     {title:'提交操作',value:'yes'},{title:'取消操作',value:'no'}
+			 ],
+			 buttonCallback : function(obj,v,btn){
+			     if(v==='yes'){
+				     var links = $("#filelinks").val();
+				     links = links.replace(/[\r\n]/g,"$");
+                     links = links.replace(/\$\$/g,"$");
+	   
+		             var arr = links.split('$');
+		             var larr = [];
+		             for(var i=0;i<arr.length;i++){
+		                 if(arr[i]!=''){
+			                 larr.push(arr[i]);
+			             }
+		             }
+		             if(larr.length==0){
+		                 $input.val('');
+						 $("#picurlsbox li.item").remove();
+		             }else{
+					     links = larr.join('$');
+					     $input.val(links);
+						 $("#picurlsbox li.item").remove(); //清空原有图片集
+				     }
+					 var html='';
+					 for(var i=0;i<larr.length;i++){
+		                 html += '<li class="item"><img src="'+larr[i]+'" width="100" height="100" /><div class="remove"><span class="fa fa-times-circle"></span></div></li>';
+		             }
+		             $("#"+bid).before(html);
+			     }
+				 return true;
+			 }, 
+			 content : '<textarea id="filelinks" class="input-textarea" style="width:575px; resize:none; height:310px;">'+links+'</textarea>',
+			 isLock : true,
+			 fixed : true
+		 });
+	});
+	
+	
+	$("span.changeimg").click(function(){
+	     var Url = $(this).data('url');
+	     $.fdialog({
+		     title : '图片上传',
+			 id : 'changeimg',
+			 titleIcon : 'fa fa-picture-o',
+			 width : 760,
+			 height : 480,
+			 content : {
+			     type : 'iframe',
+				 src : Url
+			 },
+			 isMove : true
+			 
+	     });
+	});
+	
+	
+});
+
+function resetPicurls(){
+     var pics = [];
+	 $("#picurlsbox .item img").each(function(){
+		pics.push($(this).attr('src'));
+	 });
+	 $('[name="picurls"]').val(pics.join("$"));
+}
+
+function uploadPics($obj){
+	var Url = $obj.data('url');
+	$.fdialog({
+		     title : '图片上传',
+			 id : 'changeimg',
+			 titleIcon : 'fa fa-picture-o',
+			 width : 760,
+			 height : 480,
+			 content : {
+			     type : 'iframe',
+				 src : Url
+			 },
+			 isMove : true
+			 
+	});
+}
+
+function addPics(bid,pics){
+	     if(!pics || !bid){
+		     return false;
+		 }
+		 
+		 var $input = $('input[name="'+bid+'"]');
+		 
+		 
+		 $input.val(function(index,value){
+		     if(bid!=="titlepic" && bid!=="thumb1" && bid!=="thumb2"){
+			     return value?value+'$'+pics:pics;
+			 }else{
+				 return pics;
+			 }
+		 });
+		 
+		 
+		 if(bid!=="titlepic" && bid!=="thumb1" && bid!=="thumb2"){
+		     var $obj = $('#'+bid);
+		     var html = '';
+		     var arr = pics.split('$');
+		     for(var i=0;i<arr.length;i++){
+		         html += '<li class="item"><img src="'+arr[i]+'" width="100" height="100" /><div class="remove"><span class="fa fa-times-circle"></span></div></li>';
+		     }
+		     $obj.before(html);
+		 }
+		 $('#fdialog-changeimg').fdialog('destroy');
+}
+
+</script>
+</head>
+<body>
+
+
+<div class="line-block">当前位置：<a href="{:U('Pic/index')}">图片集管理</a> &gt; <eq name="Data.id" value="0">添加<else/>修改</eq>图片集</div>
+
+<form name="editform" id="editform" action="{$submiturl}" method="post">
+<div style="margin-bottom:10px;">
+	 <div class="ftabs">
+	      <div class="tabs-title hover">基本信息</div>
+		  <div class="tabs-title">其它参数</div>
+	 </div>
+	 
+      <div class="fbox">
+           <div class="tabs-content">
+	          <table class="ftable">
+			      <tbody>
+				  <input type="hidden" value="{$Data.id|default=0}" name="id" />
+				  <input type="hidden" value="{$Data.addtime}" name="addtime" />
+				  <tr>
+				  <td width="150">标题(*)</td>
+				  <td>
+				  <select class="input-select" name="cid">
+				     <option value="0">选择栏目</option>
+				     <volist name="ClassifyList" id="r"><option value="{$r.id}" <if condition="$r[id]==$Data[cid]"> selected</if>>{$r.name}</option></volist>
+				  </select>
+				  <input type="text" class="input-text" style="width:300px;" value="{$Data.title}" name="title" />
+				  <select class="input-select" name="star">
+					 <option value="0">推荐级别</option>
+				     <volist name="ConfigArray.pic.star" id="r" key="k"><option value="{$key}" <if condition="$key==$Data[star]"> selected</if>>{$r}</option></volist>
+				  </select>
+				  </td>
+				  </tr>
+				  
+				  <tr>
+				  <td>推荐位置</td>
+				  <td>
+				  <php>$position = array_filter(explode('|',$Data['position']));</php>
+				  <volist name="ConfigArray.pic.position" id="r">
+				     <label class="input-label"><input class="icheck" type="checkbox" name="position[]" value="{$key}" <if condition="in_array($key,$position)">checked</if>/><span>{$r}</span></label><eq name="i" value="10"><br/></eq>
+				  </volist>
+				  </td>
+				  </tr>
+				  
+
+				  <tr>
+				  <td>标题图片</td>
+				  <td><input type="text" class="input-text" style="width:300px;" value="{$Data.titlepic}" name="titlepic" /><span class="changeimg" data-url="{:U('Upload/titlepic','&pid='.$Data['addtime'].'&bid=titlepic')}"></span></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>缩略图片1</td>
+				  <td><input type="text" class="input-text" style="width:300px;" value="{$Data.thumb1}" name="thumb1" /><span class="changeimg" data-url="{:U('Upload/titlepic','&pid='.$Data['addtime'].'&bid=thumb1')}"></span></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>缩略图片2</td>
+				  <td><input type="text" class="input-text" style="width:300px;" value="{$Data.thumb2}" name="thumb2" /><span class="changeimg" data-url="{:U('Upload/titlepic','&pid='.$Data['addtime'].'&bid=thumb2')}"></span></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>关键词</td>
+				  <td><input type="text" class="input-text" style="width:300px;" value="{$Data.keys}" name="keys" /></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>tags</td>
+				  <td><input type="text" class="input-text" style="width:300px;" value="{$Data.tags}" name="tags" /><span class="info">多个已英文逗号隔开</span></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>图片集 <a href="#" class="btn min" id="editpicurls">快速修改</a></td>
+				  <td>
+				  <input value="{$Data.picurls}" type="hidden" name="picurls" />
+				  <div class="picurlsbox">
+				     <div id="picurlsbox">
+					     <ul>
+						 <php>$piclist = array_filter(explode('$',$Data["picurls"]));</php>
+						 <volist name="piclist" id="r">
+						 <li class="item"><img src="{$r}" width="100" height="100" /><div class="remove"><span class="fa fa-times-circle"></span></div></li>
+						 </volist>
+						 <li id="picurls" data-url="{:U('Upload/pics','&pid='.$Data['addtime'].'&bid=picurls')}"><div class="addpic"><span class="fa fa-plus-circle"></span></div></li>
+						 </ul>
+					 </div>
+				  </div>
+				  </td>
+				  </tr>
+				  
+				  <tr>
+				  <td>介绍</td>
+				  <td><textarea class="input-textarea" style="width:400px; height:60px;" name="content">{$Data.content}</textarea></td>
+				  </tr>
+
+				 </tbody>
+			 </table>
+	      </div>
+		  
+		  <div class="tabs-content" style="display:none;">
+		     <table class="ftable">
+			      <tbody>
+				  <tr>
+				  <td width="150">点击量</td>
+				  <td>
+				  <input type="text" class="input-text" style="width:100px;" value="{$Data.hits}" name="hits" /></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>好评数</td>
+				  <td>
+				  <input type="text" class="input-text" style="width:100px;" value="{$Data.good}" name="good" /></td>
+				  </tr>
+				  
+				  <tr>
+				  <td>差评数</td>
+				  <td>
+				  <input type="text" class="input-text" style="width:100px;" value="{$Data.bad}" name="bad" /></td>
+				  </tr>
+				  
+		          </tbody>
+			 </table>
+		  </div>
+		  
+		  
+     </div>
+</div>
+
+<div style="padding-left:176px" class="fbtns">
+	 <button class="btn" type="submit" id="pastsubmit"><span class="icon-edit"></span> 确定<eq name="id" value="0">添加<else/>修改</eq></button><button type="reset" class="btn"><span class="icon-share-alt"></span> 重置信息</button>
+</div>
+</form>
+
+</body>
+</html>

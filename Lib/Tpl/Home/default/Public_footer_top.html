@@ -1,0 +1,55 @@
+<link href="/Public/Template/default/asid.css" rel="stylesheet" type="text/css" />
+<div class="asid_share" id="asid_share">
+	<div class="asid_share_box relative">
+		<a href="/gb.html" target="_blank"><img alt="我有话说" title="我有话说" class="adid_icon" src="/Public/Template/default/icon_say.png"></a>
+	</div>
+	<div class="asid_share_box relative">
+		<a href="javascript:void(0)"><img alt="关于我们" title="关于我们" class="adid_icon" src="/Public/Template/default/icon_help.png"></a>
+		<div class="asid_share_triangle" style="display:none;">
+			<em class="border_sj">&#9670;</em>
+	    <span class="con_sj">&#9670;</span>
+    </div>
+		<div class="asid_sha_layer" style="display:none;">
+			<ul class="asid_help_list" style="width:130px;">
+				<li><a href="#" target="_blank">关于我们</a></li>
+				<li><a href="/gb.html" target="_blank">联系我们</a></li>
+				<li><a href="#" target="_blank">版权声明</a></li>
+				<li><a href="{$ConfigData.site.domain}/sitemap.xml" target="_blank">网站地图</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="asid_share_box relative">
+		<a href="javascript:void(0)"><img alt="扫二微码" title="扫二微码" class="adid_icon" src="/Public/Template/default/icon_sweep.png"></a>
+		<div class="asid_share_triangle" style="display:none;">
+			<em class="border_sj">&#9670;</em>
+	    <span class="con_sj">&#9670;</span>
+    </div>
+		<div class="asid_sha_layer" style="width:250px;display:none;">
+			<p class="sweep_img">
+			<script>
+thisURL = document.URL;
+strwrite = "<img src='http://qr.liantu.com/api.php?m=5&text=" + thisURL + "&w=300' width='220' height='220' alt='扫描二维码，分享到手机' class='img'/>";
+document.write( strwrite );
+</script> </p>
+			<p class="pb6"><b>扫描二维码图案，分享到手机</b></p>
+		</div>
+	</div>
+	<div class="asid_share_box relative" style="display:none;">
+		<a href="javascript:void(0)"><img alt="返回顶部" title="返回顶部" class="adid_icon" src="/Public/Template/default/icon_back.png"></a>
+	</div>
+</div>
+<script type="text/javascript" src="/Public/Template/default/jQuery.hhShare.min.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	//图片滚动特效
+	$('#asid_share').hhShare({
+		cenBox     : 'asid_share_box',  //里边的小层
+		icon       : 'adid_icon',
+		addClass   : 'red_bag',
+		titleClass : 'asid_title',
+		triangle   : 'asid_share_triangle', //鼠标划过显示图层，边上的小三角
+		showBox    : 'asid_sha_layer' //鼠标划过显示图层
+	});
+});
+</script>

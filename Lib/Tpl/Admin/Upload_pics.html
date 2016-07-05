@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+<link href="./Public/Admin/css/upload.css" rel="stylesheet" />
+<script src="./Public/Admin/plug/plupload/plupload.full.min.js"></script>
+<script>
+$(function(){
+	 FH.getTabs($("body"));
+	 /*
+	 $("#select_file_btn").click(function(){
+	     var bid = '{$bid}';
+		 var pics = $("#upload_filelist").find('img[fpic]');
+		 var arr = [];
+		 pics.each(function(){
+		     arr.push($(this).attr("src"));
+		 });
+		 window.parent.addPics(bid,arr.join("$"));
+		 return false;
+	 });
+	 */
+	 
+	 $("#picurlsbox li").click(function(){
+	     if($(this).hasClass('selected')){
+		     $(this).removeClass('selected');
+		 }else{
+		     $(this).addClass('selected');
+		 }
+	 });
+	 
+	 $("#select_file_btn_re").click(function(){
+	     $("#picurlsbox li").each(function(){
+		     if($(this).hasClass('selected')){
+		         $(this).removeClass('selected');
+		     }else{
+		         $(this).addClass('selected');
+		     }
+		 });
+	     return false;
+	 });
+	 
+	 $("#select_file_btn_all").click(function(){
+	     $("#picurlsbox li").addClass('selected');
+	     return false;
+	 });
+	 
+	 $("#select_file_btn").click(function(){
+	      var bid = '{$bid}';
+		  var arr = [];
+		  $("#picurlsbox li.selected").each(function(){
+		     arr.push($(this).find("img").attr("src"));
+		  });
+		  if(arr.length==0){
+		     return false;
+		  }
+		  
+		  window.parent.addPics(bid,arr.join("$"));
+	     return false;
+	 });
+	 
+	 
+	 $("#link_file_btn").click(function(){
+	     var links = $("#filelink").val();
+		 
+		 links = links.replace(/[\r\n]/g,"$");
+         links = links.replace(/\$\$/g,"$");
+	   
+		 var arr = links.split('$');
+		 var larr = [];
+		 for(var i=0;i<arr.length;i++){
+		     if(arr[i]!=''){
+			     larr.push(arr[i]);
+			 }
+		 }
+		 if(larr.length==0){
+		     return false;
+		 }
+		 
+		 links = larr.join('$');
+		 
+		 
+		 
+		 var bid = '{$bid}';
+		 window.parent.addPics(bid,links);
+	     return false;
+	 });
+	 
+});
+</script>
+</head>
+<body>
+
+<div class="ftabs">
+	 <div class="tabs-title hover">本地上传</div>
+	 <div class="tabs-title">服务器选择</div>
+	 <div class="tabs-title">网络图片</div>
+</div>
+	 
+<div class="fbox">
+     <div class="tabs-content">
+         <div class="upload_titlepic" id="upload_container">
+             <div class="upload_container">
+		         <a class="btn" id="add_file_btn" href="#" onclick="return false;"><span class="fa fa-plus"></span> 添加图片</a>
+             </div>
+
+             <div class="upload_filelist clearfix">
+                 <ul id="upload_filelist"></ul>
+             </div>
+	 
+	         <div style="color:#999;">
+			     <span style="float:right;">
+			         <!--<a class="btn" id="select_file_btn" href="#" onclick="return false;"><span class="fa fa-save"></span> 提交图片</a>-->
+			         <a class="btn btn-success" id="upload_file_btn" href="#" onclick="return false;"><span class="fa fa-arrow-up"></span> 上传图片</a>
+				 </span>
+			     不想添加到图片集的图片可以先移出
+			 </div>
+         </div>
+     </div>
+	 
+	 <div class="tabs-content" style="display:none;">
+	     <div class="picurlsbox">
+			 <div id="picurlsbox">
+			 <ul>
+		     <volist name="FileList" id="r">
+		     <li class="item"><img src="{$r.path}" width="92" height="92" /><div class="check"><span class="fa fa-check"></span></div></li>
+		     </volist>
+			 </ul>
+	         </div>
+		 </div>
+	     <div style="clear:both; padding:10px; overflow:hidden;">
+		 <a class="btn btn-success" id="select_file_btn" style="float:right;" href="#" onclick="return false;"><span class="fa fa-plus"></span> 添加选中</a>
+		 <a class="btn" id="select_file_btn_re" style="float:right; margin:0 10px;" href="#" onclick="return false;"><span class="fa fa-reply"></span> 反选</a>
+		 <a class="btn" id="select_file_btn_all" style="float:right;" href="#" onclick="return false;"><span class="fa fa-plus"></span> 全选</a>
+		 
+		 <span style="color:#999;">只显示当前图片集下的图片</span>
+		 
+		 </div>
+	 </div>	 
+	 <div class="tabs-content" style="display:none;">
+	     <div style="padding:10px 10px 0;">
+		 <textarea name="filelink" style="width:684px;height:310px;" class="input-textarea" id="filelink"></textarea>
+		 </div>
+	     <div style="clear:both; padding:10px; overflow:hidden;"><span style="color:#999;">一行一个图片地址</span><a class="btn" id="link_file_btn" style="float:right;" href="#" onclick="return false;"><span class="fa fa-plus"></span> 添加地址</a></div>
+	 </div>
+	 
+</div>
+
+
+<script>
+$(function(){
+     $('#upload_filelist').on('click','li span.file_btn',function(){
+	     var id = $(this).data('id');
+		 uploader.removeFile(id);
+	     $('#'+id).remove();
+	 });
+	 
+	 $('#upload_container').on('click','img[fpic]',function(){
+	     
+	 });
+	  
+});
+
+function showFileList(page){
+     var $obj = $("#site_filelist");
+	 var url = '{:U("filelist")}';
+	 $obj.load(url);
+	 
+
+}
+
+var uploader = new plupload.Uploader({
+    runtimes : 'html5,flash,silverlight,html4',
+	file_data_name : 'titlepic',
+    browse_button : 'add_file_btn',
+    container: document.getElementById('upload_container'),
+    url : '{:U("upload")}',
+	
+	multipart : true,
+	multipart_params : {
+	     picname : '',
+		 pid : '{$pid}'
+	},
+	multi_selection : true,
+	resize : {width : 320, height : 240, quality : 90}, 
+
+    filters : {
+        max_file_size : '10mb',
+        mime_types: [
+            {title : "Image files", extensions : "jpg,gif,png"},
+            {title : "Zip files", extensions : "zip"}
+        ]
+    },
+    flash_swf_url : './Public/Admin/plug/plupload/Moxie.swf',
+    silverlight_xap_url : './Public/Admin/plug/plupload/Moxie.xap',
+
+    init: {
+        PostInit: function() {
+			$("#upload_file_btn").click(function(){
+			     uploader.start();
+                 return false;
+			});
+        },
+		UploadFile : function(up,files){
+		     uploader.settings.multipart_params.picname = $('#'+files.id).find('input[name="pic_name"]').val();
+		},
+		FileUploaded : function(up,files,data){
+		     var $msg = $('#'+files.id).find('span.file_msg');
+			 
+			 if(data.status===200){
+			     
+				 var D = eval('('+data.response+')');
+				 if(D.status){
+				     $msg.html(D.msg).hide();
+					 
+					 var Img = D.data[0];
+					 var Src = Img.savepath + Img.savename;
+					 
+					 $('#'+files.id).find('.file_pic img').attr('src',Src).attr('fpic','1');
+				 }else{
+				     $msg.html(D.msg);
+				 };
+			 }else{
+			     $msg.html('<span style="color:red;">上传失败<span>');
+			 };
+		},
+        FilesAdded: function(up,files) {
+			 plupload.each(files,function(file){
+				$('#upload_filelist').append('<li id="'+file.id +'"><div class="file_pic"><img width="80" height="80" src="./Public/Admin/imgs/upload/image.png" /><span class="file_msg">等待上传</span><span class="file_btn" data-id="'+file.id+'"><i class="fa fa-times"></i></span></div><input type="text" class="input-text" value="'+file.name+'" name="pic_name" /></li>');
+             });
+        },
+        UploadProgress: function(up,file) {
+            $('#'+file.id).find('span.file_msg').html(file.percent+'%');
+        },
+        Error: function(up, err) {
+            
+        },
+		UploadComplete : function(up,file){
+		     
+			 setTimeout(function(){
+			     var bid = '{$bid}';
+		         var pics = $("#upload_filelist").find('img[fpic]');
+		         var arr = [];
+		         pics.each(function(){
+		             arr.push($(this).attr("src"));
+		         });
+		         window.parent.addPics(bid,arr.join("$"));
+			 },500);
+			 
+			 
+		}
+    }
+});
+ 
+uploader.init();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+<div class="mod-common clearfix">
+<div class="mod-channel"><div class="channel-title"><h2><i class="icon meinv"></i>美女推荐</h2><div class="in-more clearfix"><a href="/hot.html">更多+</a></div>
+</div>
+<div class="channel-ctn">
+<div class="cnt hz-list clearfix" id="hz-list" style="width:1000px;">
+<?php
+$plist = $db->field('picurls,des,hits,goog,bad',true)->where(array('position'=>array('like','%|f|%')))->order('rand()')->limit(5)->select();
+?>
+<volist name="plist" id="r">
+<a href="{$r|get_url_pic}" target="_blank"><img src="{$ConfigData.site.piccdn}{$r.thumb1}"><span class="writing">{$r.title}</span></a>
+</volist>
+
+</div>
+</div>
+</div></div>

@@ -1,0 +1,8 @@
+.login-box{ width:300px; height:auto; margin:80px auto 0; background-color:#f9f9f9; border:1px solid #66afe9;  -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6); padding-bottom:20px;}
+.login-form { padding:20px;}
+.login-box h1 { text-align:center; line-height:40px; height:40px; color:#ffffff; font-size:12px; background-color:#4FB4DE;}
+.input-text-user { height:20px; width:240px; border:1px solid #cccccc; background-color:#ffffff; padding:3px 9px; overflow:hidden; color:#999999; margin-bottom:15px;}
+.input-text-user span { display:block; float:left; font-size:20px; text-align:left; color:#999999; width:20px; height:20px; line-height:20px;}
+.input-text-user input { border:none; height:20px; line-height:20px; width:210px; margin:0; padding:0; display:block; float:left; color:#555555; font-size:12px;}
+
+p.hover { border-color: #66afe9; outline:0; -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);}

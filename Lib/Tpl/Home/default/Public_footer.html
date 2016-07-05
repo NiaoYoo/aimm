@@ -1,0 +1,32 @@
+
+    <div class="foot-info clearfix">
+        <div class="info-ctn clearfix">
+            <dl class="info-list clearfix">
+                <dt><h1>关于</h1></dt>
+                <dd><a href="javascript:void(0)">关于我们</a></dd>
+                <dd><a href="javascript:void(0)">流量合作</a></dd>
+                <dd><a href="javascript:void(0)">广告投放</a></dd>
+                <dd><a href="{$ConfigData.site.domain}/sitemap.xml">网站地图</a></dd>
+            </dl>
+            <dl class="info-list bgnone clearfix">
+                <dt><h1>关注我们</h1></dt>
+				<dd><a href="http://weibo.com/woaimmcc" target="_blank"><i class="icon weibo"></i>官方微博</a></dd>
+                <dd><a href="javascript:void(0)" target="_blank"><i class="icon email"></i>邮箱订阅</a></dd>
+                <dd><a href="{$ConfigData.site.domain}/rss.xml" target="_blank"><i class="icon rss"></i>RSS订阅</a></dd>
+                <dd><a href="javascript:void(0)" id="favorites"><i class="icon favor"></i>加入收藏</a></dd>
+            </dl>
+            <div class="foot_logo">我爱美女网</div>
+            <dl class="info-list links clearfix">
+                <dt class="title"><h1>加入我们</h1></dt>
+               我们是一群有梦想的年轻人，每天激情、快乐地工作。 我们是一家有活力的公司，有自己的核心竞争力。 我们有梦想，我们渴望成功，我们相信自己、相信未来。 我们一直在努力，我爱美眉 ( www.woaimm.cc )期待您的加入。
+            </dl>
+            <dl class="info-list hezuo bgnone clearfix">
+                <dt><h1>合作伙伴</h1></dt>
+			<?php
+			$flinkDB = M('flink');
+			$flinkList = $flinkDB->where(array(array('islock=0'),array('type=2')))->select();
+			?>
+                <volist name="flinkList" id="r"><dd><a href='{$r.link}' target='_blank'>{$r.name}</a></dd></volist>
+            </dl>
+        </div>
+    </div>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+<script>
+function delClassify(obj){
+     var $obj = $(obj);
+	 $.fdialog.alert('fa fa-question-circle','<h5>您确定要删除此单页吗？</h5>',{
+	     position : ['center',100],
+		 button : [{
+		     title : '确定删除',
+			 value : 'yes'
+		 },{
+		     title : '取消操作',
+			 value : 'no'
+		 }],
+		 buttonCallback : function(obj,v,btn){
+		     if(v==='yes'){
+			     window.location.href = $obj.attr('href');
+				 return false;
+			 }
+			 return true;
+		 }
+	 });
+}
+
+function delSelectClassify(f){
+     $.fdialog.alert('fa fa-question-circle','<h5>您确定要删除所选单页吗？</h5>',{
+	     position : ['center',200],
+		 button : [{
+		     title : '删除所选',
+			 value : 'yes'
+		 },{
+		     title : '取消操作',
+			 value : 'no'
+		 }],
+		 buttonCallback : function(obj,v,btn){
+		     if(v==='yes'){
+			     f.attr('action',$('#delselect').attr('href')).submit();
+				 return false;
+			 }
+			 return true;
+		 }
+	 });
+}
+
+
+$(function(){
+     $('#checkall').on('ifClicked',function(){
+	     var opts = this.checked===false?'check':'uncheck';
+		 $('input[name="id[]"]').iCheck(opts);
+	 });
+	 
+	 $('input[name="id[]"]').on('ifClicked',function(){
+	     if(this.checked===true){
+		     $('#checkall').iCheck('uncheck');
+		 }
+	 })
+	 
+	 
+	 $("#editselect").click(function(){
+	     var obj = $('input[name="id[]"]:checked');
+		 if(obj.length>0){
+		     $('#datalist').attr('action',$(this).attr('href')).submit();
+		 }else{
+		     $.fdialog.alert('fa fa-times-circle','<h5>您没有选择任何要操作的单页!</h5><p>说明：此项操作仅修改单页排序</p>',{
+			     position : ['center',200],
+			 });
+		 }
+		 return false;
+	 });
+	 
+	 
+	 $("#delselect").click(function(){
+		 var posturl = $(this).attr('href');
+		 var obj = $('input[name="id[]"]:checked');
+		 if(obj.length>0){
+		     delSelectClassify($('#datalist'));
+		 }else{
+		     $.fdialog.alert('fa fa-times-circle','<h5>您没有选择任何要操作的单页!</h5>',{
+			     position : ['center',200],
+			 });
+		 }
+		 return false;
+	 });
+
+
+})
+
+</script>
+</head>
+<body>
+<div class="line-block">当前位置：信息管理 &gt; 单页管理</div>
+
+<div style="margin-bottom:10px;">
+      <a class="btn" href="{:U('add')}"><span class="fa fa-plus"></span> 添加单页</a>
+</div>
+
+<form name="datalist" id="datalist" method="post" action="">
+<div class="tbox">
+		 <div class="tlink"></div>
+          <table class="table">
+          <thead>
+          <tr>
+	      <th width="50">全选</th><th width="50">ID</th><th width="100">排序</th><th>单页名称</th><th width="200">英文名称</th><th width="200">操作</th>
+          </tr>
+          </thead>
+	      <tbody>
+		 <volist name="DataList" id="r">
+		     <tr>
+		     <td><input class="icheck" type="checkbox" name="id[]" value="{$r.id}" /></td><td>{$r.id}</td><td><input type="text" class="input-text" style="width:50px; text-align:center;" value="{$r.myorder}" name="myorder[{$r.id}]"></td><td>{$r.name}</td><td>{$r.ename}</td><td><a href="{:U('del','&id='.$r['id'])}" onclick="delClassify(this);return false;">删除</a><a href="{:U('edit','&id='.$r['id'])}" class="editlink">修改</a></td>
+			 </tr>
+		 </volist>
+	      </tbody>
+		  <tfoot>
+		  
+		  <tr>
+		  <td><input class="icheck" type="checkbox" id="checkall" data-sid="id[]" /></td>
+		  <td colspan="5" style="padding:0 10px; text-align:right;"><div class="pages">{$PageList}</div></td>
+		  </tr>
+		  
+		  <tr>
+		  <td colspan="6" style="text-align:left;padding:0 10px;">
+		  <a class="btn min" href="{:U('edits')}" id="editselect"><span class="fa fa-edit"></span> 修改选中</a>
+		  <a class="btn min" href="{:U('dels')}" id="delselect"><span class="fa fa-minus-circle"></span> 删除选中</a>
+		  </td></tr>
+		  </tfoot>
+           </table>
+</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,1 @@
+document.writeln("<span>广告赞助</span>");

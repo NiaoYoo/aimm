@@ -1,0 +1,115 @@
+.content_980 {
+	width:980px;
+	margin:0px auto;
+}
+.cebian-p {
+	padding: 15px;
+	width: 250px;
+	line-height: 24px;
+}
+.page-l {
+	width: 680px;
+	margin-top: 15px;
+	position: relative;
+}
+.page-tag {
+	padding: 15px 0;
+	line-height: 26px;
+}
+.page-title {
+	display: block;
+	font-size: 18px;
+	font-weight: 400;
+	color: #e75242;
+	padding: 5px 0px;
+	width: 680px;
+	border-bottom: 2px solid #eee;
+	padding-bottom: 5px;
+}
+.mod-page {
+	width: 680px;
+	overflow: hidden;
+	position: relative;
+	border: 1px solid #e5e6e6;
+	background: #fff;
+	float: left;
+}
+.page-p {
+	padding: 0 30px 0 30px;
+	width: 620px;
+	line-height: 24px;
+}
+.page-p p {
+	padding: 0.5em 0;
+}
+.page-p p img {
+	margin: 0 auto;
+	display: block;
+	max-width: 620px;
+	height: auto;
+}
+.cebian {
+	float: right;
+}
+.mod-cebian {
+	width: 280px;
+	overflow: hidden;
+	position: relative;
+	border: 1px solid #e5e6e6;
+	background: #fff;
+}
+.cebian-p {
+	padding: 15px;
+	width: 250px;
+	line-height: 24px;
+}
+.mod-cebian1 {
+	width: 280px;
+	overflow: hidden;
+	position: relative;
+}
+.ads_by {
+	margin-top: 10px;
+}
+.related_img {
+	padding-top: 10px;
+	width:610px;
+	height:160px
+}
+.related_box {
+	float:left;
+	overflow:hidden;
+	width:152px
+}
+.related_box:hover {
+	background:#f9f9f9
+}
+.related_box .r_title {
+	width:auto;
+	height:45px;
+	font-weight:400;
+	font-size:13px;
+	margin:0 10px;
+	overflow:hidden
+}
+.related_box .r_pic {
+	margin:1px
+}
+.related_box .r_pic img {
+	width:145px;
+	height:100px;
+	border:1px solid #e1e1e1;
+	background:#fff;
+	padding:2px
+}
+
+.comment {
+	margin-top: 10px;
+	padding: 0px 10px 0px 10px;
+	width: 660px;
+	overflow: hidden;
+	position: relative;
+	border: 1px solid #e5e6e6;
+	background: #fff;
+	float: left;
+}

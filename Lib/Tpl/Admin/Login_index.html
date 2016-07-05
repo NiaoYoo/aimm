@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>网站管理系统</title>
+<link rel="stylesheet" href="./Public/Admin/css/style.css" />
+<link rel="stylesheet" href="./Public/Admin/css/login.css" />
+<link rel="stylesheet" href="./Public/Admin/plug/awesome/css/font-awesome.min.css" />
+<script src="./Public/Admin/jquery/jquery.min.js" type="text/javascript" language="javascript"></script>
+<script>
+$(function(){
+     
+	 var inputText = $(".input-text-user");
+     inputText.find("input").each(function(index,ele){
+         $(this).focus(function(){
+	         inputText.eq(index).addClass("hover");
+	     }).blur(function(){
+		     inputText.eq(index).removeClass("hover");
+		 });
+     });
+
+});
+</script>
+</head>
+<body style="background:#D4E5FF;">
+
+
+<div class="login-box">
+<h1>后台管理员登陆</h1>
+<div class="login-form">
+<form action="./index.php?g=Admin&m=Login&a=into" id="adminlogin" method="post">
+      <p class="input-text-user"><span class="fa fa-user"></span><input type="text" placeholder="管理员帐号" value="" autocomplete="off" name="user" /></p>
+	  <p class="input-text-user"><span class="fa fa-lock"></span><input type="password" placeholder="管理员密码" value="" autocomplete="off" name="password" /></p>
+	  <button class="btn" type="submit" style="width:260px; height:28px; line-height:28px; padding:0; margin:0; font-size:12px; display:block;" >确定登陆</button>
+</form>
+</div>
+<div id="msg" style="padding:0 20px; color:red;"><span id="info"></span></div>
+</div>
+</body>
+</html>

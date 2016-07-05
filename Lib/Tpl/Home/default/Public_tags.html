@@ -1,0 +1,64 @@
+<div class="mod-common clearfix">
+        <div class="mod-channel">
+            <div class="channel-ctn">
+                <div class="left"><ul class="channel-tags clearfix">
+				<?php
+				$Tags = $db_tags->order('num desc')->limit(20)->select();
+				?>
+				<volist name="Tags" id="r">
+				<li class="tag-{$i}"><a href="{$r.name|get_url_tags}"><span class="txt">{$r.name}</span></a></li>
+				</volist>
+				</ul></div>
+                <div class="middle pic">
+                    <div class="mod-rep-img-cat" style="width:277px;height:306px;top:0;left:0;">
+                        <a href="{:get_url_classify(6)}" target="_blank" class="cover">
+                            <img class="img" src="/Public/allimg/tags/2-13092G634210-L.jpg">
+                            <span class="desc">
+                                <span class="title">丝袜美腿</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="mod-rep-img-cat" style="width:142px;height:142px;top:0;left:282px;">
+                        <a href="{:get_url_classify(3)}" target="_blank" class="cover">
+                            <img class="img" src="/Public/allimg/tags/2-13092G636330-L.jpg">
+                            <span class="desc">
+                                <span class="title">靓丽模特</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="mod-rep-img-cat" style="width:142px;height:142px;top:0;left:429px;">
+                        <a href="{:get_url_classify(3)}" target="_blank" class="cover">
+                            <img class="img" src="/Public/allimg/tags/2-13092G63A30-L.jpg">
+                            <span class="desc">
+                                <span class="title">美女明星</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="mod-rep-img-cat" style="width:142px;height:142px;top:0;left:576px;">
+                        <a href="{:get_url_classify(1)}" target="_blank" class="cover">
+                            <img class="img" src="/Public/allimg/tags/2-13092G635220-L.jpg">
+                            <span class="desc">
+                                <span class="title">清纯唯美</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="mod-rep-img-cat" style="width:142px;height:159px;top:147px;left:282px;">
+                        <a href="{:get_url_classify(5)}" target="_blank" class="cover">
+                            <img class="img" src="/Public/allimg/tags/2-13092G635520-L.jpg">
+                            <span class="desc">
+                                <span class="title">网络红人</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="mod-rep-img-cat" style="width:289px;height:159px;top:147px;left:429px;">
+                        <a href="{:get_url_classify(2)}" target="_blank" class="cover">
+                            <img class="img" src="/Public/allimg/tags/2-13092G636120-L.jpg">
+                            <span class="desc">
+                                <span class="title">性感诱惑</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

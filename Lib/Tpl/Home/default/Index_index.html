@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>{$ConfigData.site.name} - {$ConfigData.site.keys2}</title>
+<meta name="keywords" content="{$ConfigData.site.keys}" />
+<meta name="description" content="{$ConfigData.site.des}" />
+<link rel="stylesheet" type="text/css" href="{$ConfigData.site.picpath}/Public/Template/default/style.css" />
+<link type="image/x-icon" rel="shortcut icon" href="{$ConfigData.site.picpath}/favicon.ico" />
+<!-- <script type="text/javascript" src="{$ConfigData.site.piccdn}/??Public/Template/default/jquery.js,Public/Template/default/jquery.lazyload.js,Public/Template/default/common.js?v=1.4"></script> -->
+<script type="text/javascript" src="{$ConfigData.site.picpath}/Public/Template/default/jquery.js?v=1.4"></script>
+<script type="text/javascript" src="{$ConfigData.site.picpath}/Public/Template/default/jquery.lazyload.js?v=1.4"></script>
+<script type="text/javascript" src="{$ConfigData.site.picpath}/Public/Template/default/common.js?v=1.4"></script>
+</head>
+<?php
+$db = M('Pic');
+$db_tags = M('Tags');
+?>
+<body>
+<include file="Public:header" />
+<div class="content clearfix">
+    <include file="Public:hot" />
+    <div class="mod-baidu">{:getadsurl('index980')}</div>
+    <include file="Public:tags" />
+    <div class="mod-common clearfix">
+        <div class="mod-channel">
+            <div class="channel-title">
+                <h2>精选美图</h2>
+                <div class="channel-right clearfix">
+                    <span>{:getadsurl('index980_1')}</span>
+                </div>
+            </div>
+            <div class="channel-ctn">
+                 <div class="cnt channel-show">
+                     <div class="post-list clearfix" style="width:1000px;">
+                     <?php
+					 $where = array('star' => array('gt',0));
+					 $plist = $db->where($where)->order('rand()')->limit(4)->select();
+					 ?>
+					 <volist name="plist" id="r">
+                         <div class="list-box">
+                             <div class="preview">
+                                 <a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">
+                                 <img src="{$ConfigData.site.piccdn}{$r.titlepic}" border="0" alt="{$r.title}"></a>
+                                 <div class="detail mt5">
+                                     <h3><a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">{$r.title}</a></h3>
+                                     <span class="postdate">{$r.addtime|date='Y-m-d',###}</span>
+                                 </div>
+                                 <span class='num'>{$r.pnum}张</span>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+							 <?php
+							 $tags = FH_getTags($r["tags"],2);
+							 ?>
+                                 <div class="tags"><a href='{$r.cid|get_url_classify}'>清纯美眉</a><volist name="tags" id="t"><a href="{$t|get_url_tags}">{$t}</a></volist></div>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+                                 <div class="fields">
+                                     <span><i class="view icon"></i>{$r.hits}</span>
+                                     <span><i class="like icon"></i>{$r.good}</span>
+                                 </div>
+                             </div>
+                         </div>
+                     </volist>
+
+                     </div>
+                     <div class="veiwall"><a href="/rec.html" target="_blank">查看更多精选图集<span class="icon">&nbsp;&nbsp;&nbsp;&nbsp;</span></a></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="mod-common clearfix" id="qingchun">
+        <div class="mod-channel">
+            <div class="channel-title">
+                <h2>清纯美女</h2>
+            </div>
+            <div class="channel-ctn">
+                 <div class="cnt channel-show">
+                     <div class="post-list clearfix" style="width:1000px;">
+					 <?php
+					 $plist = $db->where('cid=1')->order('addtime desc')->limit(8)->select();
+					 ?>
+					 <volist name="plist" id="r">
+                         <div class="list-box">
+                             <div class="preview">
+                                 <a target="_blank" href="{$r|get_url_pic}" title="{$r.title}"><img src="{$ConfigData.site.piccdn}{$r.titlepic}" border="0" alt="{$r.title}"></a>
+                                 <div class="detail mt5">
+                                     <h3><a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">{$r.title}</a></h3>
+                                     <span class="postdate">{$r.addtime|date='Y-m-d',###}</span>
+                                 </div>
+                                 <span class='num'>{$r.pnum}张</span>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+							 <?php
+							 $tags = FH_getTags($r["tags"],2);
+							 ?>
+                                 <div class="tags"><a href='{$r.cid|get_url_classify}'>清纯美眉</a><volist name="tags" id="t"><a href="{$t|get_url_tags}">{$t}</a></volist></div>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+                                 <div class="fields">
+                                     <span><i class="view icon"></i>{$r.hits}</span>
+                                     <span><i class="like icon"></i>{$r.good}</span>
+                                 </div>
+                             </div>
+                         </div>
+                     </volist>
+
+                     </div>
+                     <div class="veiwall"><a href="{:get_url_classify(1)}" target="_blank">更多清纯美女<span class="icon">&nbsp;&nbsp;&nbsp;&nbsp;</span></a></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="mod-common clearfix" id="xinggan">
+        <div class="mod-channel">
+            <div class="channel-title">
+                <h2>性感美女</h2>
+                <div class="channel-right clearfix">
+                    <span>{:getadsurl('index980_1')}</span>
+                </div>
+            </div>
+            <div class="channel-ctn">
+                 <div class="cnt channel-show">
+                     <div class="post-list clearfix" style="width:1000px;">
+                     <?php
+					 $plist = $db->where('cid=2')->order('addtime desc')->limit(8)->select();
+					 ?>
+					 <volist name="plist" id="r">
+                         <div class="list-box">
+                             <div class="preview">
+                                 <a target="_blank" href="{$r|get_url_pic}" title="{$r.title}"><img src="{$ConfigData.site.piccdn}{$r.titlepic}" border="0" alt="{$r.title}"></a>
+                                 <div class="detail mt5">
+                                     <h3><a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">{$r.title}</a></h3>
+                                     <span class="postdate">{$r.addtime|date='Y-m-d',###}</span>
+                                 </div>
+                                 <span class='num'>{$r.pnum}张</span>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+							 <?php
+							 $tags = FH_getTags($r["tags"],2);
+							 ?>
+                                 <div class="tags"><a href='{$r.cid|get_url_classify}'>性感美眉</a><volist name="tags" id="t"><a href="{$t|get_url_tags}">{$t}</a></volist></div>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+                                 <div class="fields">
+                                     <span><i class="view icon"></i>{$r.hits}</span>
+                                     <span><i class="like icon"></i>{$r.good}</span>
+                                 </div>
+                             </div>
+                         </div>
+                     </volist>
+
+                     </div>
+                     <div class="veiwall"><a href="{:get_url_classify(2)}" target="_blank">更多性感美女<span class="icon">&nbsp;&nbsp;&nbsp;&nbsp;</span></a></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="mod-common clearfix" id="mingxing">
+        <div class="mod-channel">
+            <div class="channel-title">
+                <h2>明星美女</h2>
+            </div>
+            <div class="channel-ctn">
+                 <div class="cnt channel-show">
+                     <div class="post-list clearfix" style="width:1000px;">
+                     <?php
+					 $plist = $db->where('cid=3')->order('addtime desc')->limit(8)->select();
+					 ?>
+					 <volist name="plist" id="r">
+                         <div class="list-box">
+                             <div class="preview">
+                                 <a target="_blank" href="{$r|get_url_pic}" title="{$r.title}"><img src="{$ConfigData.site.piccdn}{$r.titlepic}" border="0" alt="{$r.title}"></a>
+                                 <div class="detail mt5">
+                                     <h3><a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">{$r.title}</a></h3>
+                                     <span class="postdate">{$r.addtime|date='Y-m-d',###}</span>
+                                 </div>
+                                 <span class='num'>{$r.pnum}张</span>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+							 <?php
+							 $tags = FH_getTags($r["tags"],2);
+							 ?>
+                                 <div class="tags"><a href='{$r.cid|get_url_classify}'>明星美女</a><volist name="tags" id="t"><a href="{$t|get_url_tags}">{$t}</a></volist></div>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+                                 <div class="fields">
+                                     <span><i class="view icon"></i>{$r.hits}</span>
+                                     <span><i class="like icon"></i>{$r.good}</span>
+                                 </div>
+                             </div>
+                         </div>
+                     </volist>
+
+                     </div>
+                     <div class="veiwall"><a href="{:get_url_classify(3)}" target="_blank">更多明星美女<span class="icon">&nbsp;&nbsp;&nbsp;&nbsp;</span></a></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="mod-common clearfix" id="mote">
+        <div class="mod-channel">
+            <div class="channel-title">
+                <h2>靓丽模特</h2>
+            </div>
+            <div class="channel-ctn">
+                 <div class="cnt channel-show">
+                     <div class="post-list clearfix" style="width:1000px;">
+                     <?php
+					 $plist = $db->where('cid=4')->order('addtime desc')->limit(8)->select();
+					 ?>
+					 <volist name="plist" id="r">
+                         <div class="list-box">
+                             <div class="preview">
+                                 <a target="_blank" href="{$r|get_url_pic}" title="{$r.title}"><img src="{$ConfigData.site.piccdn}{$r.titlepic}" border="0" alt="{$r.title}"></a>
+                                 <div class="detail mt5">
+                                     <h3><a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">{$r.title}</a></h3>
+                                     <span class="postdate">{$r.addtime|date='Y-m-d',###}</span>
+                                 </div>
+                                 <span class='num'>{$r.pnum}张</span>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+							 <?php
+							 $tags = FH_getTags($r["tags"],2);
+							 ?>
+                                 <div class="tags"><a href='{$r.cid|get_url_classify}'>美女模特</a><volist name="tags" id="t"><a href="{$t|get_url_tags}">{$t}</a></volist></div>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+                                 <div class="fields">
+                                     <span><i class="view icon"></i>{$r.hits}</span>
+                                     <span><i class="like icon"></i>{$r.good}</span>
+                                 </div>
+                             </div>
+                         </div>
+                     </volist>   
+
+                     </div>
+                     <div class="veiwall"><a href="{:get_url_classify(4)}" target="_blank">更多靓丽模特<span class="icon">&nbsp;&nbsp;&nbsp;&nbsp;</span></a></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="mod-common clearfix" id="siwa">
+        <div class="mod-channel">
+            <div class="channel-title">
+                <h2>丝袜美女</h2>
+                <div class="channel-right clearfix">
+                    <span id="sogou-ad1">{:getadsurl('index980_1')}</span>
+                </div>
+            </div>
+            <div class="channel-ctn">
+                 <div class="cnt channel-show">
+                     <div class="post-list clearfix" style="width:1000px;">
+                     <?php
+					 $plist = $db->where('cid=6')->order('addtime desc')->limit(8)->select();
+					 ?>
+					 <volist name="plist" id="r">
+                         <div class="list-box">
+                             <div class="preview">
+                                 <a target="_blank" href="{$r|get_url_pic}" title="{$r.title}"><img src="{$ConfigData.site.piccdn}{$r.titlepic}" border="0" alt="{$r.title}"></a>
+                                 <div class="detail mt5">
+                                     <h3><a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">{$r.title}</a></h3>
+                                     <span class="postdate">{$r.addtime|date='Y-m-d',###}</span>
+                                 </div>
+                                 <span class='num'>{$r.pnum}张</span>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+							 <?php
+							 $tags = FH_getTags($r["tags"],2);
+							 ?>
+                                 <div class="tags"><a href='{$r.cid|get_url_classify}'>丝袜美女</a><volist name="tags" id="t"><a href="{$t|get_url_tags}">{$t}</a></volist></div>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+                                 <div class="fields">
+                                     <span><i class="view icon"></i>{$r.hits}</span>
+                                     <span><i class="like icon"></i>{$r.good}</span>
+                                 </div>
+                             </div>
+                         </div>
+                     </volist> 
+
+                     </div>
+                     <div class="veiwall"><a href="{:get_url_classify(6)}" target="_blank">更多丝袜美女<span class="icon">&nbsp;&nbsp;&nbsp;&nbsp;</span></a></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="mod-common clearfix" id="wangluo">
+        <div class="mod-channel">
+            <div class="channel-title">
+                <h2>网络美女</h2>
+            </div>
+            <div class="channel-ctn">
+                 <div class="cnt channel-show">
+                     <div class="post-list clearfix" style="width:1000px;">
+                     <?php
+					 $plist = $db->where('cid=5')->order('addtime desc')->limit(8)->select();
+					 ?>
+					 <volist name="plist" id="r">
+                         <div class="list-box">
+                             <div class="preview">
+                                 <a target="_blank" href="{$r|get_url_pic}" title="{$r.title}"><img src="{$ConfigData.site.piccdn}{$r.titlepic}" border="0" alt="{$r.title}"></a>
+                                 <div class="detail mt5">
+                                     <h3><a target="_blank" href="{$r|get_url_pic}" title="{$r.title}">{$r.title}</a></h3>
+                                     <span class="postdate">{$r.addtime|date='Y-m-d',###}</span>
+                                 </div>
+                                 <span class='num'>{$r.pnum}张</span>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+							 <?php
+							 $tags = FH_getTags($r["tags"],2);
+							 ?>
+                                 <div class="tags"><a href='{$r.cid|get_url_classify}'>网络美女</a><volist name="tags" id="t"><a href="{$t|get_url_tags}">{$t}</a></volist></div>
+                             </div>
+                             <div class="listline"></div>
+                             <div class="pdw10">
+                                 <div class="fields">
+                                     <span><i class="view icon"></i>{$r.hits}</span>
+                                     <span><i class="like icon"></i>{$r.good}</span>
+                                 </div>
+                             </div>
+                         </div>
+                     </volist>     
+
+                     </div>
+                     <div class="veiwall"><a href="{:get_url_classify(5)}" target="_blank">更多网络美女<span class="icon">&nbsp;&nbsp;&nbsp;&nbsp;</span></a></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="mod-ad980">{:getadsurl('mntj')}</div>
+
+    <include file="Public:tujian" />
+<?php
+			$flinkDB = M('flink');
+			$flinkList = $flinkDB->where(array(array('islock=0'),array('type=1')))->select();
+			?>
+   <div class="link">
+	<div class="title"><span>友情链接</span></div>
+    <div><volist name="flinkList" id="r"><a href='{$r.link}' target='_blank'>{$r.name}</a>&nbsp;</volist></div>
+</div>
+</div>
+<div class="plot clearfix" style="display:none">
+    <ul>
+        <volist name="ClassifyList" id="r">
+        <li><a rel="#{$r.ename}" href="javascript:void(0)">{$r.name}</a></li>
+        </volist>
+    </ul>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    aimm.init();
+});
+</script>
+<div class="footer mt50">
+<include file="Public:footer" />
+<include file="Public:footer_2" />
+</div>
+
+</body>
+</html>

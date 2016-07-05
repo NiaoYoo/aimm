@@ -1,0 +1,41 @@
+<div class="header">
+    <div class="top">
+        <div class="logo"><a href="#" title="{$ConfigData.site.name}"></a></div>
+        <div class="search-block">
+            <form method="get" id="searchform" onsubmit="FH.getSearch();return false;" action="">
+                <input class="search-button" type="submit" value="">	
+                <input type="text" id="keyword" name="keyword" value="" onfocus="if (this.value == '') {this.value = '';}" onblur="if (this.value == '') {this.value = '';}">
+            </form>
+        </div>
+        <div class="social-icons">
+            <a href="{$ConfigData.site.domain}/rss.xml" target="_blank" class="rss icon" title="RSS"></a>
+            <a href="javascript:void(0)" class="share icon" title="分享"></a>
+        </div>
+    </div>
+    <div class="main-nav">
+        <div class="main-menu">
+            <ul class="menu">
+                <li class="current"><a href="{$ConfigData.site.domain}">首页</a></li>
+                <li class="open">
+                    <a href="javascript:void(0)">分类<i class="open-up icon"></i></a></a>
+                    <ul class="sub-menu">
+                        <volist name="ClassifyList" id="r">
+						<li><a href="{$r.id|get_url_classify}">{$r.name}</a></li>
+						</volist>
+                    </ul>
+                </li>
+				<volist name="PagesList" id="r">
+                <li><a href="{$r|get_url_pages}">{$r.name}<eq name="r['ename']" value="hot"><i class="hot icon"></i></eq></a></li>
+				</volist>
+            </ul>
+            <div class="menu-right">
+                <a href="javascript:void(0)" target="_blank"><i class="icon i-mail"></i>邮箱订阅</a>
+                <span>|</span>
+                <a href="javascript:void(0)" id="favorites"><i class="icon i-fav"></i>加入收藏</a>
+                <span>|</span>
+                <a href="/gb.html"><i class="icon i-opinion"></i>留言建议</a>
+            </div>
+        </div>
+        <div class="main-menu-bg"></div>
+	</div>
+</div>

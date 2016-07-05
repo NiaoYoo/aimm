@@ -1,0 +1,57 @@
+html {overflow:hidden;}
+body { margin:0; padding:0; background-color:#ffffff; color:#000000; font:12px normal Arial,Helvetica,sans-serif;}
+div,ul,ol,li,dl,dd,dt,p,h1,h2,h3,h4,h5,form,input,button,select,a,textarea { margin:0; padding:0;}
+li { list-style-type:none;}
+input,a,button,select { outline:none;}
+img { border-width:0; vertical-align:top;}
+a:link, a:visited { color:#111111; text-decoration:none;}
+a:hover, a:active { color:#002280; text-decoration:underline;}
+select { font-size:12px;}
+
+#header { height:90px;} 
+
+#header .top { background:url("../imgs/topbg.gif") repeat left top #37A4CD; height:60px; overflow:hidden;}
+#header .top .nav { float:left; height:60px; overflow:hidden;}
+#header .top .nav li { float:left; height:60px; width:60px; text-align:center;}
+#header .top .nav li span { display:block; height:60px; width:60px; font-weight:bold; overflow:hidden; line-height:96px; background-repeat:no-repeat; background-position:center 5px; color:#ffffff; cursor:pointer;}
+
+#header .top .nav li span.hover, #header .top .nav li span.this {background-color:#8CBDEF; text-decoration:none;}
+
+#header .top .nav li span.system { background-image:url("../imgs/micon/system.png");}
+#header .top .nav li span.template { background-image:url("../imgs/micon/template.png");}
+#header .top .nav li span.info { background-image:url("../imgs/micon/info.png");}
+#header .top .nav li span.usercp { background-image:url("../imgs/micon/usercp.png");}
+#header .top .nav li span.other { background-image:url("../imgs/micon/other.png");}
+#header .top .nav li span.extend { background-image:url("../imgs/micon/extend.png");}
+
+#header .top .logo { float:left; width:170px; padding:0 10px; height:60px; overflow:hidden;}
+#header .top .admin { float:right; line-height:60px; color:#ffffff; padding:0 20px;}
+#header .top .admin a { color:#ffffff;}
+#header .top .admin b { display:inline-block; margin-right:10px;}
+
+
+#header .link { background-color:#C9F1FF; height:30px; overflow:hidden;}
+#header .link .alink { padding:5px 10px; height:20px; overflow:hidden;}
+#header .link .alink a { display:inline-block; height:20px; line-height:20px; padding:0 10px;}
+#header .link .alink a:link, .link .alink a:visited {}
+#header .link .alink a:hover, .link .alink a:active { background-color:#8CBDEF; text-decoration:none;}
+
+
+#main { width:100%;}
+
+#main_left, #main_center, #main_right { float:left; height:100%;}
+#main_left { width:210px; overflow:auto;}
+#main_center { width:10px; background-color:#C9F1FF;}
+#main_right { overflow:hidden;}
+
+.menu-tree { padding:10px;}
+.menu-tree .home { background:url("../imgs/mtree/home.png") no-repeat left top; padding-left:20px; height:18px; line-height:18px; overflow:hidden; font-weight:bold;}
+.menu-tree dl { background:url("../imgs/mtree/list.gif") repeat-y left top;}
+.menu-tree dl.nobg { background-image:none;}
+.menu-tree dl dt { padding-left:33px; background:url("../imgs/mtree/folder1.png") no-repeat left center; height:18px; line-height:19px; overflow:hidden; cursor:pointer;}
+.menu-tree dl dt.open { background-image:url("../imgs/mtree/folder2.png");}
+.menu-tree dl.nobg dt { background-image:url("../imgs/mtree/folder3.png");}
+.menu-tree dl.nobg dt.open { background-image:url("../imgs/mtree/folder4.png");}
+
+.menu-tree dl dd { padding-left:52px; background:url("../imgs/mtree/file.png") no-repeat 18px center; height:18px; line-height:19px; overflow:hidden;}
+.menu-tree dl dd.last { background-image:url("../imgs/mtree/file1.png");}

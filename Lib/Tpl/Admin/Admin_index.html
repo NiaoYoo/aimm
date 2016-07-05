@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="Load:header" />
+<script>
+$(function(){
+     
+});
+
+function delAdmin(o){
+     var $obj = $(o);
+	 $.fdialog.alert('fa fa-question-circle','<h5>您确定要删除此管理员吗？</h5>',{
+		 position : ['center',200],
+		 button : [{
+		     title : '确定删除',
+			 value : 'yes'
+		 },{
+		     title : '取消操作',
+			 value : 'no'
+		 }],
+		 buttonCallback : function(obj,v,btn){
+		     if(v==='yes'){
+			     window.location.href = $obj.attr('href');
+				 return false;
+			 }
+			 return true;
+		 }
+	 });
+}
+
+</script>
+</head>
+<body>
+<div class="line-block">当前位置：<a href="{:U('index')}">管理员管理</a> &gt; 管理员列表</div>
+
+<div style="margin-bottom:10px;">
+      <a class="btn" href="{:U('add')}" onclick="editAdmin(this,1);return false;"><span class="fa fa-plus"></span> 添加管理员</a>
+</div>
+
+<div class="tbox">
+		  <div class="tlink">管理员列表</div>
+          <table class="table">
+          <thead>
+          <tr>
+		  <th width="50">ID</th>
+		  <th>帐号</th>
+		  <th width="100">管理组</th>
+		  <th width="200">最后登陆时间</th>
+		  <th width="200">最后登陆IP</th>
+		  <th width="80">登陆次数</th>
+		  <th width="80">是否锁定</th>
+		  <th width="160">操作</th>
+          </tr>
+          </thead>
+	      <tbody>
+		 <volist name="DataList" id="r">
+		     <tr>
+		     <td>{$r.id}</td>
+			 <td>{$r.user}</td>
+			 <td><eq name="r['gid']" value="1">超级<else/>普通</eq>管理员</td>
+			 <td>{$r.lasttime|date='Y-m-d H:i:s',###}</td>
+			 <td>{$r.lastip}</td>
+			 <td>{$r.loginnum}</td>
+			 <td><a href="{:U('setlock','&id='.$r['id'])}" class="btn min <eq name="r['islock']" value="1">btn-warning</eq>"><eq name="r['islock']" value="1">锁定<else/>正常</eq></a></td>
+			 <td><a href="{:U('del','&id='.$r['id'])}" onclick="delAdmin(this);return false;">删除</a><a href="{:U('edit','&id='.$r['id'])}" class="editlink">修改</a></td>
+			 </tr>
+		 </volist>
+	      </tbody>
+         </table>
+</div>
+
+
+</body>
+</html>

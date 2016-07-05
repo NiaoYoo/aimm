@@ -1,0 +1,23 @@
+.upload_titlepic { width:694px; height:356px; padding:10px;}
+
+.upload_container { margin-bottom:10px;}
+
+
+.upload_filelist { border:1px solid #ddd; padding:5px; height:276px; margin-bottom:10px; overflow-y:scroll;}
+.upload_filelist li { width:100px; height:128px; float:left;  padding:5px;}
+.upload_filelist li .file_pic { width:80px; height:80px; padding:9px 9px; border:1px solid #ddd; position:relative; margin-bottom:5px; background-color:#f9f9f9;}
+.upload_filelist li .file_pic .file_msg { position:absolute; top:70px; left:0; width:98px; height:30px; line-height:30px; text-align:center;}
+.upload_filelist li .file_pic .file_btn { position:absolute; top:0; right:0; width:10px; height:10px; display:block; padding:1px 3px; font-size:14px; cursor: pointer;}
+.upload_filelist li input.input-text { text-align:center; color:#999; width:88px;}
+
+.upload_filelist li.ui-selected .file_pic{ background-color:red;}
+
+
+
+.picurlsbox { height:326px; overflow-y:auto; margin:5px 5px 0;}
+.picurlsbox li { float:left; margin:5px; width:92px; height:90px; padding:4px; border:1px solid #ddd; position:relative; background-color:#fff;}
+.picurlsbox li img{ filter:alpha(opacity=80); opacity:0.8;}
+.picurlsbox li .remove { position:absolute; right:-10px; top:-10px; font-size:20px; height:20px; width:20px; color:#333; cursor:pointer;}
+.picurlsbox li .check { position:absolute; left:16px; top:15px; font-size:60px; height:60px; line-height:60px; text-align:center; width:60px; color:#269abc; cursor:pointer; display:none; filter:alpha(opacity=80); opacity:0.8; }
+.picurlsbox li.selected .check { display:block;}
+.picurlsbox li.selected img { filter:alpha(opacity=100); opacity:1;}
