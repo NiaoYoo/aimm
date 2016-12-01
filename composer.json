@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "think\\woaimm\\": "src"
+            "psr-4": {"tp5\\": "src/tp5"}
         }
     }
 }
