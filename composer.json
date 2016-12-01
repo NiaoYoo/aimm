@@ -1,0 +1,21 @@
+{
+    "name": "qsnh/think-auth",
+    "description": "Auth Manager for Thinkphp5",
+    "keywords": ["Auth", "thinkphp5"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "qsnh",
+            "email": "616896861@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "topthink/think-helper": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qsnh\\think\\Auth\\": "src"
+        }
+    }
+}
