@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "niaoyoo\\aimm\\": "src"
+            "niaoyoo\\think\\aimm\\": "src"
         }
     }
 }
