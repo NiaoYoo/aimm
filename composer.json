@@ -1,5 +1,5 @@
 {
-    "name": "qsnh/think-auth",
+    "name": "niaoyoo/woaimm",
     "description": "Auth Manager for Thinkphp5",
     "keywords": ["Auth", "thinkphp5"],
     "license": "MIT",
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Qsnh\\think\\Auth\\": "src"
+            "niaoyoo\\woaimm\\": "src"
         }
     }
 }
