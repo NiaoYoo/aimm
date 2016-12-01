@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "psr-4": {"tp5\\": "src/tp5"}
+            "niaoyoo\\aimm\\": "src"
         }
     }
 }
