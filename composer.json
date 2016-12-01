@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "think\\woa3imm\\": "src"
+            "think\\woaimm\\": "src"
         }
     }
 }
