@@ -1,0 +1,21 @@
+{
+    "name": "niaoyoo/woaimm",
+    "description": "Woaimm for Thinkphp5",
+    "keywords": ["Woaimm", "thinkphp5"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "niaoyoo",
+            "email": "niaoyoo@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "topthink/think-helper": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "niaoyoo\\think\\woaimm\\": "src"
+        }
+    }
+}
