@@ -1,12 +1,12 @@
 {
     "name": "niaoyoo/woaimm",
-    "description": "Auth Manager for Thinkphp5",
-    "keywords": ["Auth", "thinkphp5"],
+    "description": "Woaimm for Thinkphp5",
+    "keywords": ["Woaimm", "thinkphp5"],
     "license": "MIT",
     "authors": [
         {
-            "name": "qsnh",
-            "email": "616896861@qq.com"
+            "name": "niaoyoo",
+            "email": "niaoyoo@qq.com"
         }
     ],
     "require": {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "niaoyoo\\woaimm\\": "src"
+            "niaoyoo\\think\\woaimm\\": "src"
         }
     }
 }
